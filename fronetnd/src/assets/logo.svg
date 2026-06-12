@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 100" role="img" aria-label="Ashish Computers logo">
+  <defs>
+    <style>
+      .brand-a { fill: #E71317; font: bold 48px Inter, system-ui, sans-serif; }
+      .brand-text { fill: #FFFFFF; font: bold 48px Inter, system-ui, sans-serif; }
+      .subtitle { fill: #A8B0C2; font: 18px Inter, system-ui, sans-serif; letter-spacing: 1px; }
+    </style>
+  </defs>
+  <text x="26" y="62" class="brand-a">A</text>
+  <text x="60" y="62" class="brand-text">shish</text>
+  <text x="26" y="86" class="subtitle">Computers</text>
+</svg>
