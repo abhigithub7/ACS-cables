@@ -1,8 +1,18 @@
 const API_BASE = import.meta.env.VITE_API_BASE || 'https://acs-cables.onrender.com/api/v1'
 
+let adminAuth = {
+  username: import.meta.env.VITE_ADMIN_USERNAME,
+  password: import.meta.env.VITE_ADMIN_PASSWORD
+}
+
+export const setAdminAuth = (auth) => {
+  if (auth?.username && auth?.password) {
+    adminAuth = auth
+  }
+}
+
 const getAdminAuthHeaders = () => {
-  const username = import.meta.env.VITE_ADMIN_USERNAME
-  const password = import.meta.env.VITE_ADMIN_PASSWORD
+  const { username, password } = adminAuth
   return username && password ? {
     'x-admin-username': username,
     'x-admin-password': password

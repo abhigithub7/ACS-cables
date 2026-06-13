@@ -13,7 +13,7 @@ const LoginPage = ({ onLogin }) => {
 
     if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
       setError('')
-      onLogin()
+      onLogin({ username, password })
       return
     }
 
