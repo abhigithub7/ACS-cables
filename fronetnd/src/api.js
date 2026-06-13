@@ -1,4 +1,4 @@
-const rawApiBase = import.meta.env.VITE_API_BASE || '/api/v1'
+const rawApiBase = import.meta.env.VITE_API_BASE || 'https://acs-cables.onrender.com/api/v1'
 const API_BASE = rawApiBase.replace(/\/+$|\\/g, '').replace(/\/api\/v1$/, '/api/v1')
 
 const getAuthHeaders = () => {

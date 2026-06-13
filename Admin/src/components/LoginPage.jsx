@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-const ADMIN_USERNAME = 'admin'
-const ADMIN_PASSWORD = 'password123'
+const ADMIN_USERNAME = import.meta.env.VITE_ADMIN_USERNAME
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD
 
 const LoginPage = ({ onLogin }) => {
   const [username, setUsername] = useState('')
@@ -66,10 +66,7 @@ const LoginPage = ({ onLogin }) => {
         </form>
 
         <div className="mt-6 text-sm text-slate-500">
-          <p>
-            Use username <span className="font-medium text-slate-900">admin</span> and password{' '}
-            <span className="font-medium text-slate-900">password123</span>
-          </p>
+          
         </div>
       </div>
     </div>

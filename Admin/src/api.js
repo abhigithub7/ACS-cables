@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE || 'https://acs-cables-dmrga8f3o-abhigithub7s-projects.vercel.app/api/v1'
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://acs-cables.onrender.com/api/v1'
 
 const handleResponse = async (response) => {
   const data = await response.json().catch(() => null)
