@@ -6,11 +6,11 @@
   "author": "Abhinay",
   "type": "module",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js",
-    "seed": "node seed/seedProducts.js"
-  },
+ "scripts": {
+  "start": "node index.js",
+  "dev": "nodemon index.js",
+  "seed": "node seed/seedProducts.js"
+},
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
