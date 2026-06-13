@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:9000/api/v1'
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://acs-cables-3vc3tpfmm-abhigithub7s-projects.vercel.app/api/v1'
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token')

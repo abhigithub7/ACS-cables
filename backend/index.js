@@ -16,8 +16,34 @@ const app = express()
 const port = process.env.PORT || 3000
 
 // Middleware
+const defaultOrigins = [
+  'http://localhost:5173',
+  'http://localhost:4173',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:4173',
+  'https://acs-cables-3vc3tpfmm-abhigithub7s-projects.vercel.app'
+]
+
+const allowedOrigins = [
+  ...(process.env.CORS_ORIGIN || '')
+    .split(',')
+    .map(origin => origin.trim())
+    .filter(Boolean),
+  ...defaultOrigins
+].filter((value, index, self) => self.indexOf(value) === index)
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
+  origin: (requestOrigin, callback) => {
+    if (!requestOrigin) {
+      return callback(null, true)
+    }
+
+    if (allowedOrigins.includes(requestOrigin) || allowedOrigins.includes('*')) {
+      return callback(null, true)
+    }
+
+    return callback(new Error(`CORS policy does not allow access from origin ${requestOrigin}`), false)
+  },
   credentials: true
 }))
 app.use(express.json())
@@ -56,7 +82,4 @@ app.use((err, req, res, next) => {
   })
 })
 
-app.listen(port, () => {
-  console.log(`🚀 Backend Server is running on port ${port}`)
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`)
-})
+
