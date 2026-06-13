@@ -17,7 +17,8 @@ const port = process.env.PORT || 3000
 
 app.use(cors({
   origin: true,
-  credentials: true
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

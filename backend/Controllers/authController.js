@@ -106,6 +106,29 @@ export const loginUser = async (req, res) => {
   }
 }
 
+export const adminLogin = async (req, res) => {
+  try {
+    const { username, password } = req.body
+
+    if (!username || !password) {
+      return res.status(400).json({ success: false, message: 'Please provide username and password' })
+    }
+
+    const adminUsername = process.env.ADMIN_USERNAME
+    const adminPassword = process.env.ADMIN_PASSWORD
+
+    if (username === adminUsername && password === adminPassword) {
+      const token = generateToken('admin')
+      return res.status(200).json({ success: true, message: 'Admin login successful', token })
+    }
+
+    return res.status(401).json({ success: false, message: 'Invalid credentials' })
+  } catch (error) {
+    console.error('Admin login error:', error)
+    res.status(500).json({ success: false, message: error.message || 'Error logging in' })
+  }
+}
+
 
 export const getMe = async (req, res) => {
   try {

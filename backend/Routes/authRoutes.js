@@ -2,6 +2,7 @@ import express from 'express'
 import {
   registerUser,
   loginUser,
+  adminLogin,
   getMe,
   updateProfile,
   changePassword,
@@ -14,6 +15,7 @@ const router = express.Router()
 // Public routes
 router.post('/register', registerUser)
 router.post('/login', loginUser)
+router.post('/admin-login', adminLogin)
 router.post('/logout', logoutUser)
 
 // Private routes

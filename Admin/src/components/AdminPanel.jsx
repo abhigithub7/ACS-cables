@@ -67,6 +67,7 @@ const categories = ['CAT-6 Cables', '3+1 CCTV Cables', 'Printer Cables', 'Mobile
 
 const AdminPanel = ({ onSignOut }) => {
   const [activePage, setActivePage] = useState('dashboard')
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [products, setProducts] = useState(initialProducts)
   const [orders, setOrders] = useState(initialOrders)
   const [users, setUsers] = useState([])
@@ -200,15 +201,31 @@ const AdminPanel = ({ onSignOut }) => {
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="hidden sm:flex sm:items-center sm:gap-3">
-                <div className="h-8 w-8 rounded-full bg-slate-200">
+              {/* Mobile hamburger */}
+              <button
+                type="button"
+                onClick={() => setMobileOpen((s) => !s)}
+                className="inline-flex items-center gap-2 rounded-md bg-white/5 p-2 text-white lg:hidden"
+                aria-label="Toggle menu"
+                aria-expanded={mobileOpen}
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  {mobileOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
 
-                </div>
+              <div className="hidden sm:flex sm:items-center sm:gap-3">
+                <div className="h-8 w-8 rounded-full bg-slate-200" />
                 <div className="text-right">
                   <p className="text-sm font-medium text-white">Ashish Ahirwar</p>
                   <p className="text-xs text-gray-200">Administrator</p>
                 </div>
               </div>
+
               <button
                 type="button"
                 onClick={onSignOut}
@@ -220,6 +237,34 @@ const AdminPanel = ({ onSignOut }) => {
           </div>
         </div>
       </nav>
+
+      {/* Mobile menu (small screens) */}
+      <div className={`lg:hidden ${mobileOpen ? 'block' : 'hidden'} bg-white border-b border-slate-200 shadow-sm`}>
+        <div className="px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-slate-900">A Computers</p>
+              <p className="text-xs text-slate-500">Admin Panel</p>
+            </div>
+            <button type="button" onClick={() => setMobileOpen(false)} className="text-slate-600">Close</button>
+          </div>
+
+          <div className="mt-3 space-y-2">
+            {pageItems.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => { setActivePage(item.id); setMobileOpen(false) }}
+                className={`w-full text-left rounded-md px-3 py-2 text-sm font-semibold transition ${
+                  activePage === item.id ? 'bg-purple-900 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
       <div className="mx-auto flex max-w-9xl flex-col gap-6 px-4 py-6 sm:px-6 lg:flex-row lg:px-8">
         <aside className="hidden w-full shrink-0 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:fixed lg:top-24 lg:left-0 lg:z-20 lg:h-[calc(100vh-6rem)] lg:w-72 lg:flex lg:flex-col lg:gap-5">

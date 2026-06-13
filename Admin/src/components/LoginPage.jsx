@@ -1,23 +1,25 @@
 import React, { useState } from 'react'
-
-const ADMIN_USERNAME = import.meta.env.VITE_ADMIN_USERNAME
-const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD
+import { adminLogin } from '../api'
 
 const LoginPage = ({ onLogin }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
 
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-      setError('')
-      onLogin({ username, password })
-      return
+    try {
+      const data = await adminLogin(username, password)
+      if (data?.token) {
+        setError('')
+        onLogin(data.token)
+        return
+      }
+      setError('Invalid username or password. Please try again.')
+    } catch (err) {
+      setError(err.message || 'Login failed')
     }
-
-    setError('Invalid username or password. Please try again.')
   }
 
   return (

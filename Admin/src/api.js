@@ -1,22 +1,30 @@
 const API_BASE = import.meta.env.VITE_API_BASE || 'https://acs-cables.onrender.com/api/v1'
 
-let adminAuth = {
-  username: import.meta.env.VITE_ADMIN_USERNAME,
-  password: import.meta.env.VITE_ADMIN_PASSWORD
+let adminToken = null
+try {
+  const stored = localStorage.getItem('adminToken')
+  if (stored) adminToken = stored
+} catch (e) {}
+
+export const setAdminToken = (token) => {
+  adminToken = token
+  try {
+    if (token) localStorage.setItem('adminToken', token)
+    else localStorage.removeItem('adminToken')
+  } catch (e) {}
 }
 
-export const setAdminAuth = (auth) => {
-  if (auth?.username && auth?.password) {
-    adminAuth = auth
-  }
+const getAuthHeaders = () => {
+  return adminToken ? { Authorization: `Bearer ${adminToken}` } : {}
 }
 
-const getAdminAuthHeaders = () => {
-  const { username, password } = adminAuth
-  return username && password ? {
-    'x-admin-username': username,
-    'x-admin-password': password
-  } : {}
+export const adminLogin = async (username, password) => {
+  const response = await fetch(`${API_BASE}/auth/admin-login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  })
+  return handleResponse(response)
 }
 
 const handleResponse = async (response) => {
@@ -38,7 +46,7 @@ export const createProduct = async (product) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...getAdminAuthHeaders()
+      ...getAuthHeaders()
     },
     body: JSON.stringify(product)
   })
@@ -50,7 +58,7 @@ export const updateProduct = async (productId, product) => {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      ...getAdminAuthHeaders()
+      ...getAuthHeaders()
     },
     body: JSON.stringify(product)
   })
@@ -61,7 +69,7 @@ export const deleteProduct = async (productId) => {
   const response = await fetch(`${API_BASE}/products/${productId}`, {
     method: 'DELETE',
     headers: {
-      ...getAdminAuthHeaders()
+      ...getAuthHeaders()
     }
   })
   return handleResponse(response)
@@ -70,7 +78,7 @@ export const deleteProduct = async (productId) => {
 export const fetchOrders = async () => {
   const response = await fetch(`${API_BASE}/orders/admin`, {
     headers: {
-      ...getAdminAuthHeaders()
+      ...getAuthHeaders()
     }
   })
   return handleResponse(response)
@@ -81,7 +89,7 @@ export const updateOrderStatus = async (orderId, status) => {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      ...getAdminAuthHeaders()
+      ...getAuthHeaders()
     },
     body: JSON.stringify({ status })
   })
@@ -91,7 +99,7 @@ export const updateOrderStatus = async (orderId, status) => {
 export const fetchUsers = async () => {
   const response = await fetch(`${API_BASE}/users`, {
     headers: {
-      ...getAdminAuthHeaders()
+      ...getAuthHeaders()
     }
   })
   return handleResponse(response)

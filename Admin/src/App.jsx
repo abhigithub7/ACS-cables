@@ -1,32 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import LoginPage from './components/LoginPage'
 import AdminPanel from './components/AdminPanel'
-import { setAdminAuth } from './api'
+import { setAdminToken } from './api'
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   useEffect(() => {
-    const savedAuth = localStorage.getItem('adminAuth')
-    if (savedAuth) {
-      try {
-        const parsedAuth = JSON.parse(savedAuth)
-        setAdminAuth(parsedAuth)
-        setIsAuthenticated(true)
-      } catch (error) {
-        localStorage.removeItem('adminAuth')
-      }
+    const token = localStorage.getItem('adminToken')
+    if (token) {
+      setAdminToken(token)
+      setIsAuthenticated(true)
     }
   }, [])
 
-  const handleLogin = (auth) => {
-    setAdminAuth(auth)
-    localStorage.setItem('adminAuth', JSON.stringify(auth))
+  const handleLogin = (token) => {
+    setAdminToken(token)
+    try { localStorage.setItem('adminToken', token) } catch (e) {}
     setIsAuthenticated(true)
   }
 
   const handleSignOut = () => {
-    localStorage.removeItem('adminAuth')
+    try { localStorage.removeItem('adminToken') } catch (e) {}
+    setAdminToken(null)
     setIsAuthenticated(false)
   }
 
