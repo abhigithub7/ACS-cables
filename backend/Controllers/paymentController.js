@@ -5,18 +5,25 @@ import Order from '../Model/Order.js'
 
 let razorpayInstance = null
 
+const getRazorpayConfig = () => ({
+  keyId: process.env.RAZORPAY_KEY_ID || process.env.RAZORPAY_API_KEY,
+  keySecret: process.env.RAZORPAY_SECRET || process.env.RAZORPAY_SECRET_API_KEY
+})
+
 // Initialize Razorpay only if keys are configured
 const initializeRazorpay = () => {
   if (razorpayInstance) return razorpayInstance
   
-  if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_SECRET) {
+  const { keyId, keySecret } = getRazorpayConfig()
+
+  if (!keyId || !keySecret) {
     return null
   }
 
   try {
     razorpayInstance = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID,
-      key_secret: process.env.RAZORPAY_SECRET
+      key_id: keyId,
+      key_secret: keySecret
     })
     return razorpayInstance
   } catch (error) {
@@ -136,6 +143,15 @@ export const createRazorpayOrder = async (req, res) => {
  */
 export const verifyPaymentSignature = async (req, res) => {
   try {
+    const { keySecret } = getRazorpayConfig()
+
+    if (!keySecret) {
+      return res.status(500).json({
+        success: false,
+        message: 'Payment service not configured. Please contact support.'
+      })
+    }
+
     const {
       razorpay_order_id,
       razorpay_payment_id,
@@ -153,7 +169,7 @@ export const verifyPaymentSignature = async (req, res) => {
     // Verify signature
     const sign = razorpay_order_id + '|' + razorpay_payment_id
     const expectedSignature = crypto
-      .createHmac('sha256', process.env.RAZORPAY_SECRET)
+      .createHmac('sha256', keySecret)
       .update(sign)
       .digest('hex')
 

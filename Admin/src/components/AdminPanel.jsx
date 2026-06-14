@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import logo from '../assets/logo.svg'
 import Dashboard from './Dashboard'
 import ProductPage from './ProductPage'
 import ProductCatalog from './ProductCatalog'
@@ -195,9 +194,12 @@ const AdminPanel = ({ onSignOut }) => {
       <nav className="sticky top-0 z-10 border-b border-slate-200 bg-purple-900 shadow-sm">
         <div className="mx-auto max-w-8xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <img src={logo} alt="Ashish Computers" className="h-12 w-auto" />
-              
+            <div className="flex min-w-0 items-center gap-4">
+              <img
+                src="https://img.sanishtech.com/u/bca779b9b4faf56c2c77d87f38e17907.jpeg"
+                alt="Ashish Computers"
+                className="h-12 w-12 shrink-0 rounded-full object-contain"
+              />
             </div>
 
             <div className="flex items-center gap-4">

@@ -26,6 +26,8 @@ const CheckoutPage = () => {
     paymentMethod: 'cod',
   });
 
+  const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY || import.meta.env.VITE_RAZORPAY_API_KEY;
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -86,6 +88,10 @@ const CheckoutPage = () => {
         throw new Error('Unable to load Razorpay. Please try again.');
       }
 
+      if (!razorpayKey) {
+        throw new Error('Razorpay key is missing. Please configure VITE_RAZORPAY_KEY in the frontend .env file.');
+      }
+
       // Create payment order on backend
       const totalPrice = parseFloat(getTotalPrice().toFixed(2));
       const paymentRes = await createPaymentOrder(totalPrice, order._id);
@@ -97,7 +103,7 @@ const CheckoutPage = () => {
 
       // Razorpay options
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY,
+        key: razorpayKey,
         amount: amount,
         currency: 'INR',
         name: 'A Computers',

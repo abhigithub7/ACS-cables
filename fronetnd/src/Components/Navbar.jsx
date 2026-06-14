@@ -29,12 +29,13 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-purple-900 text-white shadow-lg">
       <div className="container mx-auto flex items-center justify-between gap-4 p-4">
         <div className="flex items-center gap-3">
-          <Link to="/">
-            <img src={logo} alt="Ashish Computers" className="h-10 w-auto" />
-          </Link>
-          <div className="hidden md:block">
-            <p className="text-sm font-semibold">Ashish Computers</p>
-          </div>
+          <div className="flex min-w-0 items-center gap-3">
+              <img
+                src="https://img.sanishtech.com/u/bca779b9b4faf56c2c77d87f38e17907.jpeg"
+                alt="Ashish Computers"
+                className="h-12 w-12 shrink-0 rounded-full object-contain"
+              />
+            </div>
         </div>
 
         <div className="hidden md:flex items-center gap-8 font-medium">
