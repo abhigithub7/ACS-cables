@@ -1,38 +1,49 @@
 import jwt from 'jsonwebtoken'
 
-// Protect routes - verify JWT token
-export const protect = async (req, res, next) => {
-  let token
-
+const extractToken = (req) => {
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-    token = req.headers.authorization.split(' ')[1]
+    return req.headers.authorization.split(' ')[1]
   }
-  // Make sure token exists
+  return null
+}
+
+export const protect = async (req, res, next) => {
+  const token = extractToken(req)
+
   if (!token) {
     return res.status(401).json({ success: false, message: 'Not authorized to access this route' })
   }
+
   try {
-    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    req.user = { id: decoded.id }
+    req.user = {
+      id: decoded.id,
+      role: decoded.role || 'user'
+    }
     next()
   } catch (error) {
     return res.status(401).json({ success: false, message: 'Not authorized to access this route' })
   }
 }
 
+export const authorizeAdmin = (req, res, next) => {
+  if (!req.user || req.user.role !== 'admin') {
+    return res.status(403).json({ success: false, message: 'Admin access required' })
+  }
+  next()
+}
+
 // Optional auth - doesn't block if no token
 export const optionalAuth = async (req, res, next) => {
-  let token
-
-  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-    token = req.headers.authorization.split(' ')[1]
-  }
+  const token = extractToken(req)
 
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET)
-      req.user = { id: decoded.id }
+      req.user = {
+        id: decoded.id,
+        role: decoded.role || 'user'
+      }
     } catch (error) {
       console.log('Invalid token in optional auth')
     }

@@ -34,7 +34,6 @@ const Navbar = () => {
           </Link>
           <div className="hidden md:block">
             <p className="text-sm font-semibold">Ashish Computers</p>
-            <p className="text-xs text-slate-200">Best cable & IT store</p>
           </div>
         </div>
 

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../api';
 
 const RegisterPage = () => {
-  const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '', phone: '', street: '', city: '', state: '', zipCode: '' });
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '', phone: '', street: '', city: '', state: '', zipCode: '' });
   const [status, setStatus] = useState('');
   const navigate = useNavigate();
 
@@ -20,8 +20,8 @@ const RegisterPage = () => {
     }
     setStatus('Registering...')
     const payload = {
-      firstName: form.name.split(' ')[0] || form.name,
-      lastName: form.name.split(' ').slice(1).join(' ') || '',
+      firstName: form.firstName,
+      lastName: form.lastName,
       email: form.email,
       password: form.password,
       confirmPassword: form.confirmPassword,
@@ -59,17 +59,31 @@ const RegisterPage = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-            <input
-              id="name"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              required
-              className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
-              placeholder="Your full name"
-            />
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">First name</label>
+              <input
+                id="firstName"
+                name="firstName"
+                value={form.firstName}
+                onChange={handleChange}
+                required
+                className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                placeholder="First name"
+              />
+            </div>
+            <div>
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">Last name</label>
+              <input
+                id="lastName"
+                name="lastName"
+                value={form.lastName}
+                onChange={handleChange}
+                required
+                className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                placeholder="Last name"
+              />
+            </div>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">

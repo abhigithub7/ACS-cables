@@ -40,7 +40,7 @@ export const registerUser = async (req, res) => {
     })
 
     // Generate token
-    const token = generateToken(user._id)
+    const token = generateToken({ id: user._id, role: 'user' })
     const userData = user.getPublicData()
 
     return res.status(201).json({
@@ -88,7 +88,7 @@ export const loginUser = async (req, res) => {
     }
 
     // Generate token
-    const token = generateToken(user._id)
+    const token = generateToken({ id: user._id, role: user.isAdmin ? 'admin' : 'user' })
     const userData = user.getPublicData()
 
     return res.status(200).json({
@@ -118,7 +118,7 @@ export const adminLogin = async (req, res) => {
     const adminPassword = process.env.ADMIN_PASSWORD
 
     if (username === adminUsername && password === adminPassword) {
-      const token = generateToken('admin')
+      const token = generateToken({ id: 'admin', role: 'admin' })
       return res.status(200).json({ success: true, message: 'Admin login successful', token })
     }
 

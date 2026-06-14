@@ -6,7 +6,7 @@ import {
   updateProduct,
   deleteProduct
 } from '../Controllers/productController.js'
-import { protect } from '../Middleware/auth.js'
+import { protect, authorizeAdmin } from '../Middleware/auth.js'
 
 const router = express.Router()
 
@@ -14,9 +14,9 @@ const router = express.Router()
 router.get('/', getProducts)
 router.get('/:id', getProductById)
 
-// Admin routes - require authentication
-router.post('/', protect, createProduct)
-router.put('/:id', protect, updateProduct)
-router.delete('/:id', protect, deleteProduct)
+// Admin routes - require admin authentication
+router.post('/', protect, authorizeAdmin, createProduct)
+router.put('/:id', protect, authorizeAdmin, updateProduct)
+router.delete('/:id', protect, authorizeAdmin, deleteProduct)
 
 export default router
