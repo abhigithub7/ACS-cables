@@ -1,52 +1,96 @@
 import jwt from 'jsonwebtoken'
+import Admin from '../models/Admin.js'
 
 const extractToken = (req) => {
-  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer ')
+  ) {
     return req.headers.authorization.split(' ')[1]
   }
   return null
 }
 
+// Protect Routes
 export const protect = async (req, res, next) => {
-  const token = extractToken(req)
-
-  if (!token) {
-    return res.status(401).json({ success: false, message: 'Not authorized to access this route' })
-  }
-
   try {
+    const token = extractToken(req)
+
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: 'Not authorized. No token provided.'
+      })
+    }
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
     req.user = {
       id: decoded.id,
-      role: decoded.role || 'user'
+      role: decoded.role
     }
+
     next()
   } catch (error) {
-    return res.status(401).json({ success: false, message: 'Not authorized to access this route' })
+    return res.status(401).json({
+      success: false,
+      message: 'Invalid or expired token'
+    })
   }
 }
 
-export const authorizeAdmin = (req, res, next) => {
-  if (!req.user || req.user.role !== 'admin') {
-    return res.status(403).json({ success: false, message: 'Admin access required' })
+// Admin Authorization
+export const authorizeAdmin = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required'
+      })
+    }
+
+    // Admin exists in DB?
+    const admin = await Admin.findById(req.user.id).select('_id role')
+
+    if (!admin) {
+      return res.status(401).json({
+        success: false,
+        message: 'Admin account not found'
+      })
+    }
+
+    if (admin.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Admin access required'
+      })
+    }
+
+    req.admin = admin
+    next()
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Authorization error'
+    })
   }
-  next()
 }
 
-// Optional auth - doesn't block if no token
+// Optional Auth
 export const optionalAuth = async (req, res, next) => {
-  const token = extractToken(req)
+  try {
+    const token = extractToken(req)
 
-  if (token) {
-    try {
+    if (token) {
       const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
       req.user = {
         id: decoded.id,
-        role: decoded.role || 'user'
+        role: decoded.role
       }
-    } catch (error) {
-      console.log('Invalid token in optional auth')
     }
+  } catch (error) {
+    console.log('Optional auth: invalid token')
   }
 
   next()

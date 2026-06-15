@@ -1,6 +1,7 @@
 import User from '../Model/User.js'
 import generateToken from '../Config/jwt/AuthToken.js'
 import bcrypt from 'bcrypt'
+import Admin from '../Model/Admin.js'
 export const registerUser = async (req, res) => {
   try {
     const { firstName, lastName, email, password, confirmPassword, phone, address } = req.body
@@ -108,26 +109,45 @@ export const loginUser = async (req, res) => {
 
 export const adminLogin = async (req, res) => {
   try {
-    const { username, password } = req.body
+    const { username, password } = req.body;
 
-    if (!username || !password) {
-      return res.status(400).json({ success: false, message: 'Please provide username and password' })
+    const admin = await Admin.findOne({ username });
+
+    if (!admin) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
     }
 
-    const adminUsername = process.env.ADMIN_USERNAME
-    const adminPassword = process.env.ADMIN_PASSWORD
+    const isMatch = await bcrypt.compare(
+      password,
+      admin.password
+    );
 
-    if (username === adminUsername && password === adminPassword) {
-      const token = generateToken({ id: 'admin', role: 'admin' })
-      return res.status(200).json({ success: true, message: 'Admin login successful', token })
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
     }
 
-    return res.status(401).json({ success: false, message: 'Invalid credentials' })
+    const token = generateToken({
+      id: admin._id,
+      role: "admin",
+    });
+
+    res.status(200).json({
+      success: true,
+      token,
+    });
   } catch (error) {
-    console.error('Admin login error:', error)
-    res.status(500).json({ success: false, message: error.message || 'Error logging in' })
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
-}
+};
 
 
 export const getMe = async (req, res) => {

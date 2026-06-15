@@ -8,7 +8,7 @@ import orderRoutes from './Routes/orderRoutes.js'
 import userRoutes from './Routes/userRoutes.js'
 import { connectDB } from './Config/db.js'
 import payment from './Routes/payment.js'
-
+import createAdmin from "./utils/createAdmin.js";
 // Load environment variables
 dotenv.config()
 
@@ -28,6 +28,7 @@ app.use(express.urlencoded({ extended: true }))
 
 // Connect to database
 connectDB()
+await createAdmin();
 
 
 // Routes

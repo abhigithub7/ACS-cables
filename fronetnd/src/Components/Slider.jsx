@@ -8,7 +8,7 @@ const Slider = () => {
       description: "Discover mechanical keyboards with RGB lighting and fast switches.",
       image: "https://via.placeholder.com/1200x400/4F46E5/FFFFFF?text=Gaming+Keyboards",
       buttonText: "Shop Now",
-      buttonLink: "/products/keyboards"
+      buttonLink: "/products"
     },
     {
       id: 2,
@@ -16,7 +16,7 @@ const Slider = () => {
       description: "Ergonomic wireless mice for productivity and gaming.",
       image: "https://via.placeholder.com/1200x400/059669/FFFFFF?text=Wireless+Mice",
       buttonText: "Explore",
-      buttonLink: "/products/mice"
+      buttonLink: "/products"
     },
     {
       id: 3,
@@ -24,7 +24,7 @@ const Slider = () => {
       description: "4K monitors for crystal-clear visuals and immersive gaming.",
       image: "https://via.placeholder.com/1200x400/DC2626/FFFFFF?text=4K+Monitors",
       buttonText: "View Deals",
-      buttonLink: "/products/monitors"
+      buttonLink: "/products"
     }
   ];
 

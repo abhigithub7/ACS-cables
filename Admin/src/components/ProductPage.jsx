@@ -220,7 +220,7 @@ const ProductPage = ({ products, categories, onAddProduct, onUpdateProduct, onDe
                   <p className="font-semibold text-slate-900">{product.name}</p>
                   <p className="mt-1 text-sm text-slate-500">{product.description}</p>
                   <p className="mt-3 text-sm text-slate-500">Category: <span className="text-slate-900">{product.category}</span></p>
-                  <p className="mt-1 text-sm text-slate-500">Price: <span className="text-slate-900">${product.price.toFixed(2)}</span></p>
+                  <p className="mt-1 text-sm text-slate-500">Price: <span className="text-slate-900">₹{product.price.toFixed(2)}</span></p>
                   <p className="mt-1 text-sm text-slate-500">Stock: <span className="text-slate-900">{product.stock}</span></p>
                 </div>
                 <div className="flex flex-col gap-2">
