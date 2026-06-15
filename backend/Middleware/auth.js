@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken'
-import Admin from '../models/Admin.js'
-
+import Admin from '../Model/Admin.js'
 const extractToken = (req) => {
   if (
     req.headers.authorization &&

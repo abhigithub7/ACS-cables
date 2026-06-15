@@ -1,4 +1,4 @@
-import Admin from "../models/Admin.js";
+import Admin from "../Model/Admin.js";
 
 const createAdmin = async () => {
   try {
