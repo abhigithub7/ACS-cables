@@ -4,6 +4,7 @@ import ProductPage from './ProductPage'
 import ProductCatalog from './ProductCatalog'
 import UserManagement from './UserManagement'
 import AllOrders from './AllOrders'
+import logo from '../assets/lo.jpeg'
 import {
   fetchProducts as apiFetchProducts,
   createProduct as apiCreateProduct,
@@ -22,53 +23,17 @@ const pageItems = [
   { id: 'users', label: 'User Management' },
 ]
 
-const initialOrders = [
-  { id: '#AC-1024', customer: 'Priya Sharma', total: 549, status: 'Delivered' },
-  { id: '#AC-1025', customer: 'John Doe', total: 199, status: 'Processing' },
-  { id: '#AC-1026', customer: 'Ayesha Khan', total: 78, status: 'Pending' },
-  { id: '#AC-1027', customer: 'Mark Taylor', total: 1249, status: 'Delivered' },
-]
 
-const initialProducts = [
-  {
-    id: 1,
-    name: 'Gaming Laptop',
-    description: 'High-performance laptop built for gaming and content creation.',
-    imageUrl: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=500&q=60',
-    price: 1499.99,
-    stock: 12,
-    category: 'Laptops',
-    featured: true,
-  },
-  {
-    id: 2,
-    name: 'Mechanical Keyboard',
-    description: 'RGB backlit keyboard with tactile switches and premium build.',
-    imageUrl: 'https://images.unsplash.com/photo-1512499617640-c2f999b8d33f?auto=format&fit=crop&w=500&q=60',
-    price: 129.99,
-    stock: 42,
-    category: 'Accessories',
-    featured: false,
-  },
-  {
-    id: 3,
-    name: 'Gaming Mouse',
-    description: 'Ergonomic mouse with adjustable DPI and programmable buttons.',
-    imageUrl: 'https://images.unsplash.com/photo-1514704864467-7acdb2e7cbf0?auto=format&fit=crop&w=500&q=60',
-    price: 69.99,
-    stock: 58,
-    category: 'Accessories',
-    featured: true,
-  },
-]
+
+
 
 const categories = ['CAT-6 Cables', '3+1 CCTV Cables', 'Printer Cables', 'Mobile Data Cables', 'Cables','Networking Cables']
 
 const AdminPanel = ({ onSignOut }) => {
   const [activePage, setActivePage] = useState('dashboard')
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [products, setProducts] = useState(initialProducts)
-  const [orders, setOrders] = useState(initialOrders)
+  const [products, setProducts] = useState([])
+  const [orders, setOrders] = useState([])
   const [users, setUsers] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
@@ -196,7 +161,7 @@ const AdminPanel = ({ onSignOut }) => {
           <div className="flex items-center justify-between">
             <div className="flex min-w-0 items-center gap-4">
               <img
-                src="../src/assets/lo.jpeg"
+                src={logo}
                 alt="Ashish Computers"
                 className="h-12 w-12 shrink-0 rounded-full object-contain"
               />

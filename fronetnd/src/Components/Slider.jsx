@@ -4,24 +4,24 @@ const Slider = () => {
   const slides = [
     {
       id: 1,
-      title: "Latest Gaming Keyboards",
-      description: "Discover mechanical keyboards with RGB lighting and fast switches.",
-      image: "https://via.placeholder.com/1200x400/4F46E5/FFFFFF?text=Gaming+Keyboards",
+      title: "Mobile Data Cables",
+      description: "Discover Faster Charging Mobile Cables and Data transfer",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRB9BRSpaOTzf03rF2FWLIieUxwFZcHJ-KzQ-u4UHY_EQ&s=10",
       buttonText: "Shop Now",
       buttonLink: "/products"
     },
     {
       id: 2,
-      title: "Wireless Mice Collection",
-      description: "Ergonomic wireless mice for productivity and gaming.",
+      title: "Printer Cables",
+      description: "High Quality Printer cables under budget ",
       image: "https://via.placeholder.com/1200x400/059669/FFFFFF?text=Wireless+Mice",
       buttonText: "Explore",
       buttonLink: "/products"
     },
     {
       id: 3,
-      title: "High-Resolution Monitors",
-      description: "4K monitors for crystal-clear visuals and immersive gaming.",
+      title: "CAT-6 Outdoor & Indoor cable",
+      description: "ACS CAT-6 Cables for Indoor and outdoor",
       image: "https://via.placeholder.com/1200x400/DC2626/FFFFFF?text=4K+Monitors",
       buttonText: "View Deals",
       buttonLink: "/products"

@@ -292,7 +292,7 @@ const ProductPage = ({ products, categories, onAddProduct, onUpdateProduct, onDe
 
             <button
               type="submit"
-              className="inline-flex items-center justify-center rounded-3xl bg-sky-600 px-6 py-4 text-base font-semibold text-white transition hover:bg-sky-500"
+              className="inline-flex items-center justify-center rounded-3xl md:ml-4 ml-1 bg-purple-950 px-6 py-4 text-base font-semibold text-white transition hover:bg-sky-500"
             >
               {editingProductId ? 'Update Product' : 'Add Product'}
             </button>
