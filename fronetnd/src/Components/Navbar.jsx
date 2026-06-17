@@ -31,7 +31,7 @@ const Navbar = () => {
         <div className="flex items-center gap-3">
           <div className="flex min-w-0 items-center gap-3">
               <img
-                src="https://img.sanishtech.com/u/bca779b9b4faf56c2c77d87f38e17907.jpeg"
+                src='../src/assets/lo.jpeg'
                 alt="Ashish Computers"
                 className="h-12 w-12 shrink-0 rounded-full object-contain"
               />

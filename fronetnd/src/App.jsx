@@ -15,12 +15,15 @@ import CartPage from './Components/CartPage'
 import CheckoutPage from './Components/CheckoutPage'
 import OrdersListPage from './Components/OrdersListPage'
 import Footer from './Components/Footer'
+import ScrollToTop from './Components/ScrollToTop.jsx'
 
 const App = () => {
   return (
+    
     <CartProvider>
       <OrdersProvider>
         <Router>
+          <ScrollToTop/>
         <div>
           <Navbar />
           <main className="pt-16">

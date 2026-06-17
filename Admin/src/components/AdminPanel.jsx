@@ -164,10 +164,10 @@ const AdminPanel = ({ onSignOut }) => {
     }
   }
 
-  const handleUpdateProduct = async (product) => {
+  const handleUpdateProduct = async (product, productId) => {
     try {
-      const productId = product._id || product.id
-      const response = await apiUpdateProduct(productId, product)
+      const id = productId || product._id || product.id
+      const response = await apiUpdateProduct(id, product)
       if (response.success) {
         setProducts((prev) => prev.map((item) => {
           const itemId = item._id || item.id
@@ -196,7 +196,7 @@ const AdminPanel = ({ onSignOut }) => {
           <div className="flex items-center justify-between">
             <div className="flex min-w-0 items-center gap-4">
               <img
-                src="https://img.sanishtech.com/u/bca779b9b4faf56c2c77d87f38e17907.jpeg"
+                src="../src/assets/lo.jpeg"
                 alt="Ashish Computers"
                 className="h-12 w-12 shrink-0 rounded-full object-contain"
               />

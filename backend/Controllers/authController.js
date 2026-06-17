@@ -111,6 +111,14 @@ export const adminLogin = async (req, res) => {
   try {
     const { username, password } = req.body;
 
+    // ✅ Validation
+    if (!username || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide username and password",
+      });
+    }
+
     const admin = await Admin.findOne({ username });
 
     if (!admin) {
@@ -140,6 +148,11 @@ export const adminLogin = async (req, res) => {
     res.status(200).json({
       success: true,
       token,
+      admin: {
+        id: admin._id,
+        username: admin.username,
+        role: admin.role,
+      },
     });
   } catch (error) {
     res.status(500).json({

@@ -95,12 +95,12 @@ const Dashboard = ({ summary, orders, products, users, onStatusChange }) => {
           <div className="mt-6 space-y-4">
             {products.filter((product) => product.featured).slice(0, 4).map((product) => (
               <div key={product._id || product.id} className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-slate-50 p-4 sm:flex-row sm:items-center">
-                <img src={product.imageUrl} alt={product.name} className="h-16 w-full rounded-2xl object-cover sm:w-16" />
+                <img src={product.images?.[0] || product.imageUrl || 'https://via.placeholder.com/64?text=N/A'} alt={product.name} className="h-16 w-full rounded-2xl object-cover sm:w-16" />
                 <div className="flex-1">
                   <p className="font-medium text-slate-900">{product.name}</p>
                   <p className="text-sm text-slate-500">{product.category}</p>
                 </div>
-                <span className="rounded-2xl bg-slate-100 px-3 py-1 text-xs text-slate-700">${product.price.toFixed(2)}</span>
+                <span className="rounded-2xl bg-slate-100 px-3 py-1 text-xs text-slate-700">₹{product.price.toFixed(2)}</span>
               </div>
             ))}
             {products.filter((product) => product.featured).length === 0 && (

@@ -71,6 +71,7 @@ const ProductCatalog = ({ products = [], onDeleteProduct, onUpdateProduct }) => 
         <table className="w-full">
           <thead>
             <tr className="border-b border-slate-200">
+              <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900">Image</th>
               <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900">Product Name</th>
               <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900">Category</th>
               <th className="px-4 py-3 text-left text-sm font-semibold text-slate-900">Price</th>
@@ -82,7 +83,7 @@ const ProductCatalog = ({ products = [], onDeleteProduct, onUpdateProduct }) => 
           <tbody className="divide-y divide-slate-200">
             {filteredProducts.length === 0 ? (
               <tr>
-                <td colSpan="6" className="px-4 py-8 text-center text-slate-600">
+              <td colSpan="7" className="px-4 py-8 text-center text-slate-600">
                   No products found
                 </td>
               </tr>
@@ -91,6 +92,13 @@ const ProductCatalog = ({ products = [], onDeleteProduct, onUpdateProduct }) => 
                 const isEditing = editingId === (product._id || product.id)
                 return (
                   <tr key={product._id || product.id} className="hover:bg-slate-50">
+                    <td className="px-4 py-3">
+                      <img
+                        src={product.images?.[0] || product.imageUrl || 'https://via.placeholder.com/48?text=N/A'}
+                        alt={product.name}
+                        className="h-12 w-12 rounded-lg object-cover"
+                      />
+                    </td>
                     <td className="px-4 py-3 text-sm text-slate-900">
                       {isEditing ? (
                         <input
@@ -102,7 +110,12 @@ const ProductCatalog = ({ products = [], onDeleteProduct, onUpdateProduct }) => 
                           className="w-full rounded border border-slate-200 px-2 py-1"
                         />
                       ) : (
-                        product.name
+                        <div>
+                          <p className="font-medium text-slate-900">{product.name}</p>
+                          {product.images && product.images.length > 1 && (
+                            <p className="text-xs text-slate-400">+{product.images.length - 1} more images</p>
+                          )}
+                        </div>
                       )}
                     </td>
                     <td className="px-4 py-3 text-sm text-slate-600">
@@ -122,7 +135,7 @@ const ProductCatalog = ({ products = [], onDeleteProduct, onUpdateProduct }) => 
                     <td className="px-4 py-3 text-sm text-slate-900">
                       {isEditing ? (
                         <input
-                          type="number"
+                          type="text"
                           value={editValues.price}
                           onChange={(e) =>
                             setEditValues((prev) => ({ ...prev, price: e.target.value }))

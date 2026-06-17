@@ -19,3 +19,5 @@ build/
 .next/
 out/
 coverage/
+uploads/
+/public/uploads/

@@ -15,11 +15,19 @@ const router = express.Router()
 // Public routes
 router.post('/register', registerUser)
 router.post('/login', loginUser)
+router.post('/admin',adminLogin)
 router.get(
-  "/verify-admin",
+  '/verify-admin',
   protect,
-  authorizeAdmin
-);
+  authorizeAdmin,
+  (req, res) => {
+    res.status(200).json({
+      success: true,
+      message: 'Admin verified'
+    })
+  }
+)
+
 router.post('/logout', logoutUser)
 
 // Private routes

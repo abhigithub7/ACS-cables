@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 
 const ProductPage = ({ products, categories, onAddProduct, onUpdateProduct, onDeleteProduct }) => {
   const [formState, setFormState] = useState({
-    imageUrl: '',
     name: '',
     description: '',
     price: '',
@@ -10,6 +9,9 @@ const ProductPage = ({ products, categories, onAddProduct, onUpdateProduct, onDe
     category: categories[0] ?? '',
     featured: false,
   })
+  const [imageFiles, setImageFiles] = useState([null, null, null, null])
+  const [imagePreviews, setImagePreviews] = useState([null, null, null, null])
+  const [existingImages, setExistingImages] = useState([])
   const [editingProductId, setEditingProductId] = useState(null)
   const [message, setMessage] = useState('')
 
@@ -21,7 +23,6 @@ const ProductPage = ({ products, categories, onAddProduct, onUpdateProduct, onDe
 
   const resetForm = () => {
     setFormState({
-      imageUrl: '',
       name: '',
       description: '',
       price: '',
@@ -29,6 +30,9 @@ const ProductPage = ({ products, categories, onAddProduct, onUpdateProduct, onDe
       category: categories[0] ?? '',
       featured: false,
     })
+    setImageFiles([null, null, null, null])
+    setImagePreviews([null, null, null, null])
+    setExistingImages([])
     setEditingProductId(null)
     setMessage('')
   }
@@ -37,35 +41,73 @@ const ProductPage = ({ products, categories, onAddProduct, onUpdateProduct, onDe
     setFormState((prev) => ({ ...prev, [field]: value }))
   }
 
+  const handleImageChange = (index, file) => {
+    const newFiles = [...imageFiles]
+    const newPreviews = [...imagePreviews]
+    newFiles[index] = file
+    if (file) {
+      newPreviews[index] = URL.createObjectURL(file)
+    } else {
+      newPreviews[index] = null
+    }
+    setImageFiles(newFiles)
+    setImagePreviews(newPreviews)
+  }
+
+  const removeImage = (index) => {
+    handleImageChange(index, null)
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault()
 
     const name = formState.name.trim()
     const description = formState.description.trim()
-    const imageUrl = formState.imageUrl.trim()
     const price = parseFloat(formState.price)
     const stock = parseInt(formState.stock, 10)
 
-    if (!name || !description || !imageUrl || Number.isNaN(price) || Number.isNaN(stock) || !formState.category) {
-      setMessage('Please fill in all fields with valid values.')
+    if (!name || !description || Number.isNaN(price) || Number.isNaN(stock) || !formState.category) {
+      setMessage('Please fill in all required fields with valid values.')
       return
     }
 
-    const productPayload = {
-      name,
-      description,
-      imageUrl,
-      price,
-      stock,
-      category: formState.category,
-      featured: !!formState.featured,
+    // Check if editing: no new files selected AND no existing images
+    if (editingProductId && existingImages.length === 0 && !imageFiles.some(f => f !== null)) {
+      setMessage('Please upload at least one product image.')
+      return
+    }
+
+    // Check if creating: need at least one image
+    if (!editingProductId && !imageFiles.some(f => f !== null)) {
+      setMessage('Please upload at least one product image.')
+      return
+    }
+
+    const formData = new FormData()
+    formData.append('name', name)
+    formData.append('description', description)
+    formData.append('price', price)
+    formData.append('stock', stock)
+    formData.append('category', formState.category)
+    formData.append('featured', formState.featured)
+
+    // Append new image files
+    imageFiles.forEach((file) => {
+      if (file) {
+        formData.append('images', file)
+      }
+    })
+
+    // For editing, also send existing images as JSON string
+    if (editingProductId && existingImages.length > 0) {
+      formData.append('existingImages', JSON.stringify(existingImages))
     }
 
     if (editingProductId) {
-      onUpdateProduct({ ...productPayload, _id: editingProductId })
+      onUpdateProduct(formData, editingProductId)
       setMessage('Product updated successfully.')
     } else {
-      onAddProduct(productPayload)
+      onAddProduct(formData)
       setMessage('Product added successfully.')
     }
 
@@ -76,7 +118,6 @@ const ProductPage = ({ products, categories, onAddProduct, onUpdateProduct, onDe
     const productId = product._id || product.id
     setEditingProductId(productId)
     setFormState({
-      imageUrl: product.imageUrl || '',
       name: product.name,
       description: product.description,
       price: (product.price ?? '').toString(),
@@ -84,7 +125,20 @@ const ProductPage = ({ products, categories, onAddProduct, onUpdateProduct, onDe
       category: product.category,
       featured: !!product.featured,
     })
-    setMessage('Editing product. Update the fields then submit to save.')
+    // Show existing images as previews
+    const existingImgs = product.images || []
+    setExistingImages(existingImgs)
+    setImageFiles([null, null, null, null])
+    setImagePreviews([null, null, null, null])
+    setMessage('Editing product. Upload new images to replace or keep existing ones.')
+  }
+
+  const getImagePreview = (index) => {
+    // Show newly selected file preview first
+    if (imagePreviews[index]) return imagePreviews[index]
+    // Then show existing image if editing
+    if (editingProductId && existingImages[index]) return existingImages[index]
+    return null
   }
 
   return (
@@ -109,17 +163,59 @@ const ProductPage = ({ products, categories, onAddProduct, onUpdateProduct, onDe
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
           <h3 className="text-lg font-semibold text-slate-900">Add / Edit Product</h3>
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            {/* Image Uploads - 4 Images */}
+            <div>
+              <span className="text-sm text-slate-500">Product Images (Upload up to 4)</span>
+              <div className="mt-2 grid grid-cols-2 gap-4 md:grid-cols-4">
+                {[0, 1, 2, 3].map((index) => (
+                  <div key={index} className="relative">
+                    {getImagePreview(index) ? (
+                      <div className="relative h-32 w-full overflow-hidden rounded-2xl border border-slate-200">
+                        <img
+                          src={getImagePreview(index)}
+                          alt={`Product ${index + 1}`}
+                          className="h-full w-full object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            removeImage(index)
+                            // If it was an existing image, remove from existingImages too
+                            if (editingProductId && existingImages[index]) {
+                              const newExisting = [...existingImages]
+                              newExisting[index] = null
+                              setExistingImages(newExisting)
+                            }
+                          }}
+                          className="absolute right-1 top-1 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+                        >
+                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    ) : (
+                      <label className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 hover:border-sky-500 hover:bg-sky-50">
+                        <svg className="mb-2 h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.338-2.219 3.75 3.75 0 013.822 4.214A4.001 4.001 0 0117.25 19.5H6.75z" />
+                        </svg>
+                        <span className="text-xs text-slate-500">Image {index + 1}</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            if (e.target.files[0]) handleImageChange(index, e.target.files[0])
+                          }}
+                          className="hidden"
+                        />
+                      </label>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
             <div className="grid gap-4 lg:grid-cols-2">
-              <label className="block">
-                <span className="text-sm text-slate-500">Image URL</span>
-                <input
-                  type="url"
-                  value={formState.imageUrl}
-                  onChange={(event) => handleChange('imageUrl', event.target.value)}
-                  placeholder="https://..."
-                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
-                />
-              </label>
               <label className="block">
                 <span className="text-sm text-slate-500">Product Name</span>
                 <input
@@ -147,7 +243,7 @@ const ProductPage = ({ products, categories, onAddProduct, onUpdateProduct, onDe
               <label className="block">
                 <span className="text-sm text-slate-500">Price</span>
                 <input
-                  type="number"
+                  type="text"
                   min="0"
                   step="0.01"
                   value={formState.price}
@@ -215,13 +311,20 @@ const ProductPage = ({ products, categories, onAddProduct, onUpdateProduct, onDe
           <div className="space-y-4">
             {products.map((product) => (
               <div key={product._id || product.id} className="grid gap-4 rounded-3xl border border-slate-200 bg-slate-50 p-4 md:grid-cols-[96px_1fr_auto]">
-                <img src={product.imageUrl} alt={product.name} className="h-24 w-full rounded-3xl object-cover md:h-24 md:w-24" />
+                <img
+                  src={product.images?.[0] || product.imageUrl || 'https://via.placeholder.com/96?text=No+Image'}
+                  alt={product.name}
+                  className="h-24 w-full rounded-3xl object-cover md:h-24 md:w-24"
+                />
                 <div>
                   <p className="font-semibold text-slate-900">{product.name}</p>
                   <p className="mt-1 text-sm text-slate-500">{product.description}</p>
                   <p className="mt-3 text-sm text-slate-500">Category: <span className="text-slate-900">{product.category}</span></p>
-                  <p className="mt-1 text-sm text-slate-500">Price: <span className="text-slate-900">₹{product.price.toFixed(2)}</span></p>
+                  <p className="mt-1 text-sm text-slate-500">Price: <span className="text-slate-900">₹{product.price?.toFixed(2)}</span></p>
                   <p className="mt-1 text-sm text-slate-500">Stock: <span className="text-slate-900">{product.stock}</span></p>
+                  {product.images && product.images.length > 0 && (
+                    <p className="mt-1 text-xs text-slate-400">{product.images.length} image(s)</p>
+                  )}
                 </div>
                 <div className="flex flex-col gap-2">
                   <button

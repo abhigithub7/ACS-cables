@@ -1,7 +1,11 @@
 import Admin from "../Model/Admin.js";
-
+import mongoose from "mongoose";
 const createAdmin = async () => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      throw new Error("MongoDB not connected yet");
+    }
+
     const existingAdmin = await Admin.findOne({
       username: process.env.ADMIN_USERNAME,
     });
@@ -12,10 +16,12 @@ const createAdmin = async () => {
         password: process.env.ADMIN_PASSWORD,
       });
 
-      console.log("Admin created successfully");
+      console.log("✅ Admin created");
+    } else {
+      console.log("ℹ️ Admin already exists");
     }
   } catch (err) {
-    console.log(err);
+    console.log("createAdmin error:", err);
   }
 };
 

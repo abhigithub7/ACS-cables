@@ -8,11 +8,15 @@ const ProductDetails = () => {
   const { id } = useParams();
   const { addToCart } = useCart();
   const [product, setProduct] = useState(() => staticProducts.find((p) => String(p.id) === String(id) || String(p._id) === String(id)));
+  const [selectedImage, setSelectedImage] = useState(0);
 
   useEffect(() => {
     // try fetch from API
     fetchProductById(id).then((res) => {
-      if (res && res.success && res.product) setProduct(res.product)
+      if (res && res.success && res.product) {
+        setProduct(res.product);
+        setSelectedImage(0);
+      }
     }).catch(() => {})
   }, [id])
 
@@ -36,16 +40,44 @@ const ProductDetails = () => {
   }
 
   const productId = product.id || product._id || ''
+  const allImages = product.images && product.images.length > 0
+    ? product.images
+    : product.image
+      ? [product.image]
+      : ['https://via.placeholder.com/500x500?text=No+Image']
 
   return (
     <main className="container mx-auto px-4 py-10">
       <div className="flex flex-col lg:flex-row gap-8">
-        <div className="w-full lg:w-[500px] h-[300px] md:h-[500px] border border-gray-300 rounded-md overflow-hidden">
-          <img
-            src={product.imageUrl || product.image || 'https://via.placeholder.com/500x500?text=No+Image'}
-            alt={product.name}
-            className="w-full h-full object-fill"
-          />
+        <div className="w-full lg:w-[450px]">
+          <div className="h-[300px] md:h-[380px] border border-gray-300 rounded-md overflow-hidden mb-3">
+            <img
+              src={allImages[selectedImage]}
+              alt={product.name}
+              className="w-full h-full object-fill"
+            />
+          </div>
+          {allImages.length > 1 && (
+            <div className="flex gap-2 overflow-x-auto pb-2">
+              {allImages.map((img, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImage(index)}
+                  className={`flex-shrink-0 w-20 h-20 border-2 rounded-md overflow-hidden transition-all ${
+                    index === selectedImage
+                      ? 'border-purple-900 opacity-100'
+                      : 'border-gray-300 opacity-80 hover:opacity-80'
+                  }`}
+                >
+                  <img
+                    src={img}
+                    alt={`${product.name} ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="lg:w-1/2 bg-white rounded-xl  p-8">
@@ -57,15 +89,18 @@ const ProductDetails = () => {
 
             <div className="flex items-center gap-4">
               <span className="text-4xl font-bold text-purple-900">₹{product.price}</span>
+
               <span className="px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm">In Stock</span>
+             
             </div>
+             <div className='text-2xl'>★★★⯪☆</div>
 
             <p className="text-gray-700 leading-relaxed">{product.fullDescription}</p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <button
                 onClick={handleAddToCart}
-                className="bg-green-600 hover:bg-green-700 text-white rounded-lg px-6 py-3 font-medium transition-colors"
+                className="bg-purple-600 hover:bg-green-700 text-white rounded-lg px-6 py-3 font-medium transition-colors"
               >
                 Add to Cart
               </button>

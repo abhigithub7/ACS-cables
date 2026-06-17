@@ -65,7 +65,7 @@ const handleResponse = async (response) => {
 
 export const adminLogin = async (username, password) => {
   const response = await fetch(
-    `${API_BASE}/auth/admin-login`,
+    `${API_BASE}/auth/admin`,
     {
       method: 'POST',
       headers: {
@@ -118,15 +118,21 @@ export const fetchProducts = async () => {
 }
 
 export const createProduct = async (product) => {
+  // If product is FormData, don't set Content-Type (browser sets it with boundary)
+  const isFormData = product instanceof FormData
+  const headers = {
+    ...getAuthHeaders()
+  }
+  if (!isFormData) {
+    headers['Content-Type'] = 'application/json'
+  }
+
   const response = await fetch(
     `${API_BASE}/products`,
     {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeaders()
-      },
-      body: JSON.stringify(product)
+      headers,
+      body: isFormData ? product : JSON.stringify(product)
     }
   )
 
@@ -137,15 +143,21 @@ export const updateProduct = async (
   productId,
   product
 ) => {
+  // If product is FormData, don't set Content-Type (browser sets it with boundary)
+  const isFormData = product instanceof FormData
+  const headers = {
+    ...getAuthHeaders()
+  }
+  if (!isFormData) {
+    headers['Content-Type'] = 'application/json'
+  }
+
   const response = await fetch(
     `${API_BASE}/products/${productId}`,
     {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeaders()
-      },
-      body: JSON.stringify(product)
+      headers,
+      body: isFormData ? product : JSON.stringify(product)
     }
   )
 
