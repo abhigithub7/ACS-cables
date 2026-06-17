@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import logo from '../assets/logo.svg';
+import logo from '../assets/lo.jpeg';
 
 const Navbar = () => {
   const { getCartCount } = useCart();
@@ -31,7 +31,7 @@ const Navbar = () => {
         <div className="flex items-center gap-3">
           <div className="flex min-w-0 items-center gap-3">
               <img
-                src='../src/assets/lo.jpeg'
+                src={logo}
                 alt="Ashish Computers"
                 className="h-12 w-12 shrink-0 rounded-full object-contain"
               />
