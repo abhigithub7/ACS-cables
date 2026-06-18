@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import multer from "multer";
 
 import authRoutes from "./Routes/authRoutes.js";
 import productRoutes from "./Routes/productRoutes.js";
@@ -41,6 +42,47 @@ app.use("/api/v1/payments", payment);
 app.get("/", (req, res) => {
   res.send("Ashish Computer Store Backend API is running 🚀");
 });
+
+// ---------------- MULTER ERROR HANDLER ----------------
+app.use((err, req, res, next) => {
+  // Multer errors (file too large, wrong type, etc.)
+  if (err instanceof multer.MulterError) {
+    console.error('❌ Multer error:', err)
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({
+        success: false,
+        message: 'File too large. Maximum size is 5MB.',
+      })
+    }
+    if (err.code === 'LIMIT_FILE_COUNT') {
+      return res.status(400).json({
+        success: false,
+        message: 'Too many files. Maximum is 4 images.',
+      })
+    }
+    if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+      return res.status(400).json({
+        success: false,
+        message: 'Unexpected file field.',
+      })
+    }
+    return res.status(400).json({
+      success: false,
+      message: err.message,
+    })
+  }
+
+  // Cloudinary/multer-storage-cloudinary errors
+  if (err.message && err.message.includes('Invalid file type')) {
+    return res.status(400).json({
+      success: false,
+      message: err.message,
+    })
+  }
+
+  // Pass to next error handler
+  next(err)
+})
 
 // ---------------- 404 HANDLER ----------------
 app.use((req, res) => {

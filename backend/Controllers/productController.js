@@ -16,6 +16,7 @@ export const getProducts = async (req, res) => {
 
     res.status(200).json({ success: true, count: products.length, products })
   } catch (error) {
+    console.error('❌ getProducts error:', error)
     res.status(500).json({ success: false, message: error.message })
   }
 }
@@ -27,6 +28,7 @@ export const getProductById = async (req, res) => {
 
     res.status(200).json({ success: true, product })
   } catch (error) {
+    console.error('❌ getProductById error:', error)
     res.status(500).json({ success: false, message: error.message })
   }
 }
@@ -35,8 +37,9 @@ export const createProduct = async (req, res) => {
   try {
     const productData = { ...req.body }
 
-    // Cloudinary returns full URLs via multer-storage-cloudinary
+    console.log('📸 Files received:', req.files ? req.files.length : 0)
     if (req.files && req.files.length > 0) {
+      console.log('📸 File paths:', req.files.map(f => f.path))
       productData.images = req.files.map(file => file.path)
     }
 
@@ -50,9 +53,11 @@ export const createProduct = async (req, res) => {
     }
 
     const product = await Product.create(productData)
+    console.log('✅ Product created:', product._id)
 
     res.status(201).json({ success: true, product })
   } catch (error) {
+    console.error('❌ createProduct error:', error)
     res.status(500).json({ success: false, message: error.message })
   }
 }
@@ -61,8 +66,11 @@ export const updateProduct = async (req, res) => {
   try {
     const productData = { ...req.body }
 
+    console.log('📸 Update - Files received:', req.files ? req.files.length : 0)
+
     // Cloudinary returns full URLs via multer-storage-cloudinary
     if (req.files && req.files.length > 0) {
+      console.log('📸 Update - File paths:', req.files.map(f => f.path))
       productData.images = req.files.map(file => file.path)
     }
 
@@ -95,8 +103,10 @@ export const updateProduct = async (req, res) => {
     const product = await Product.findByIdAndUpdate(req.params.id, productData, { new: true, runValidators: true })
     if (!product) return res.status(404).json({ success: false, message: 'Product not found' })
 
+    console.log('✅ Product updated:', product._id)
     res.status(200).json({ success: true, product })
   } catch (error) {
+    console.error('❌ updateProduct error:', error)
     res.status(500).json({ success: false, message: error.message })
   }
 }
@@ -105,8 +115,10 @@ export const deleteProduct = async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id)
     if (!product) return res.status(404).json({ success: false, message: 'Product not found' })
+    console.log('✅ Product deleted:', req.params.id)
     res.status(200).json({ success: true, message: 'Product deleted' })
   } catch (error) {
+    console.error('❌ deleteProduct error:', error)
     res.status(500).json({ success: false, message: error.message })
   }
 }
