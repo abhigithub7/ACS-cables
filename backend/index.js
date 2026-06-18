@@ -1,9 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import path from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
 
 import authRoutes from "./Routes/authRoutes.js";
 import productRoutes from "./Routes/productRoutes.js";
@@ -13,9 +10,6 @@ import payment from "./Routes/payment.js";
 
 import { connectDB } from "./Config/db.js";
 import createAdmin from "./utils/createAdmin.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -34,15 +28,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, "uploads");
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-  console.log("📁 Created uploads directory");
-}
-
-// Serve uploaded files statically
-app.use("/uploads", express.static(uploadsDir));
+// Cloudinary handles file storage — no local uploads dir needed
 
 // ---------------- ROUTES ----------------
 app.use("/api/v1/auth", authRoutes);
