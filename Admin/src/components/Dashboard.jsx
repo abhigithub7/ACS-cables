@@ -70,7 +70,7 @@ const Dashboard = ({ summary, orders, products, users, onStatusChange }) => {
                     </span>
                   </div>
                   <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
-                    <p className="text-sm text-slate-500">Total: ${(order.totalPrice || order.total || 0).toFixed(2)}</p>
+                    <p className="text-sm text-slate-500">Total: ₹{(order.totalPrice || order.total || 0).toFixed(2)}</p>
                     <select
                       value={order.status || 'pending'}
                       onChange={(event) => onStatusChange(orderId, event.target.value)}
