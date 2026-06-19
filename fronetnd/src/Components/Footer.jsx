@@ -1,3 +1,7 @@
+import insta from '../assets/insta.png'
+import fb from '../assets/fb.png'
+import whatsApp from '../assets/whats.png'
+import telegram from '../assets/tele.png'
 const Footer = () => {
   return (
     <footer className="bg-black text-white py-12">
@@ -11,16 +15,16 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                <span className="text-2xl">📘</span>
+                <span className="text-2xl"><img className='h-8 w-8' src={insta} alt="" /></span>
               </a>
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                <span className="text-2xl">🐦</span>
+                <span className="text-2xl"><img className='h-8 w-8' src={fb} alt="" /></span>
               </a>
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                <span className="text-2xl">📷</span>
+                <span className="text-2xl"><img className='h-8 w-8' src={whatsApp} alt="" /></span>
               </a>
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                <span className="text-2xl">💼</span>
+                <span className="text-2xl"><img className='h-8 w-8' src={telegram} alt="" /></span>
               </a>
             </div>
           </div>

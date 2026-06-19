@@ -8,6 +8,7 @@ export const CartProvider = ({ children }) => {
   const normalizeProduct = (product) => ({
     ...product,
     id: product.id || product._id,
+    image: product.image || (product.images && product.images.length > 0 ? product.images[0] : 'https://via.placeholder.com/500x500?text=No+Image')
   })
 
   const addToCart = (product) => {

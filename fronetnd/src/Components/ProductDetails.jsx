@@ -1,23 +1,28 @@
 import { useParams, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { products as staticProducts } from '../data/products';
 import { fetchProductById } from '../api';
 import { useEffect, useState } from 'react';
 
 const ProductDetails = () => {
   const { id } = useParams();
   const { addToCart } = useCart();
-  const [product, setProduct] = useState(() => staticProducts.find((p) => String(p.id) === String(id) || String(p._id) === String(id)));
+  const [product, setProduct] = useState(null);
+  const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
 
   useEffect(() => {
-    // try fetch from API
+    setProduct(null);
+    setError(null);
+    setSelectedImage(0);
     fetchProductById(id).then((res) => {
       if (res && res.success && res.product) {
         setProduct(res.product);
-        setSelectedImage(0);
+      } else {
+        setError(res?.message || 'Product not found');
       }
-    }).catch(() => {})
+    }).catch((err) => {
+      setError(err?.message || 'Failed to fetch product');
+    })
   }, [id])
 
   const handleAddToCart = () => {
@@ -25,15 +30,29 @@ const ProductDetails = () => {
     alert(`${product.name} added to cart!`);
   };
 
-  if (!product) {
+  if (error) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center px-4 py-16">
         <div className="max-w-md text-center bg-white rounded-xl shadow-md p-8">
           <h2 className="text-2xl font-bold mb-4">Product not found</h2>
-          <p className="text-gray-600 mb-6">The product you are looking for does not exist or has been removed.</p>
+          <p className="text-gray-600 mb-6">{error}</p>
           <Link to="/" className="inline-block bg-purple-900 hover:bg-purple-800 text-white px-6 py-2 rounded-lg transition-colors">
             Back to Shop
           </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center px-4 py-16">
+        <div className="max-w-md text-center bg-white rounded-xl shadow-md p-8">
+          <div className="flex items-center justify-center mb-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-900"></div>
+          </div>
+          <h2 className="text-2xl font-bold mb-4">Loading product...</h2>
+          <p className="text-gray-600 mb-6">Please wait while we fetch the product details.</p>
         </div>
       </div>
     );

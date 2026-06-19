@@ -1,13 +1,12 @@
 import { useMemo, useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
-import { products as staticProducts } from '../data/products';
 import { fetchProducts } from '../api';
 
 const ProductList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [maxPrice, setMaxPrice] = useState(0);
-  const [products, setProducts] = useState(staticProducts);
+  const [products, setProducts] = useState([]);
 
   const categories = useMemo(() => {
     const availableCategories = Array.from(new Set(products.map((product) => product.category || 'General')))
@@ -30,7 +29,7 @@ const ProductList = () => {
         setProducts(res.products)
       }
     }).catch(() => {
-      setProducts(staticProducts)
+      // API failed - keep empty array, UI shows "no products found" naturally
     })
     return () => { mounted = false }
   }, [])
