@@ -27,39 +27,39 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-purple-900 text-white shadow-lg">
-      <div className="container mx-auto flex items-center justify-between gap-4 p-4">
-        <div className="flex items-center gap-3">
-          <div className="flex min-w-0 items-center gap-3">
+      <div className="container mx-auto flex items-center justify-between gap-1 sm:gap-2 md:gap-4 px-2 sm:px-4 py-3 sm:p-4">
+        <div className="flex items-center gap-1 sm:gap-3 shrink-0">
+          <div className="flex min-w-0 items-center gap-1 sm:gap-3">
               <img
                 src={logo}
                 alt="Ashish Computers"
-                className="h-12 w-12 shrink-0 rounded-full object-contain"
+                className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 shrink-0 rounded-full object-contain"
               />
             </div>
         </div>
 
-        <div className="hidden md:flex items-center gap-8 font-medium">
-          <Link to="/" className="hover:text-blue-200">Home</Link>
-          <Link to="/products" className="hover:text-blue-200">Products</Link>
-          <Link to="/categories" className="hover:text-blue-200">Categories</Link>
-          <Link to="/orders" className="hover:text-blue-200">Orders</Link>
-          <Link to="/about" className="hover:text-blue-200">About</Link>
-          <Link to="/contact" className="hover:text-blue-200">Contact</Link>
+        <div className="hidden md:flex items-center gap-4 lg:gap-8 font-medium">
+          <Link to="/" className="hover:text-blue-200 whitespace-nowrap">Home</Link>
+          <Link to="/products" className="hover:text-blue-200 whitespace-nowrap">Products</Link>
+          <Link to="/categories" className="hover:text-blue-200 whitespace-nowrap">Categories</Link>
+          <Link to="/orders" className="hover:text-blue-200 whitespace-nowrap">Orders</Link>
+          <Link to="/about" className="hover:text-blue-200 whitespace-nowrap">About</Link>
+          <Link to="/contact" className="hover:text-blue-200 whitespace-nowrap">Contact</Link>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:block">
+        <div className="flex items-center gap-1 sm:gap-2 md:gap-3 shrink-0">
+          <div className="hidden md:block">
             <input
               type="text"
               placeholder="Search products..."
-              className="rounded-full border border-slate-200 bg-white px-3 py-1 text-black outline-none transition focus:border-blue-300"
+              className="rounded-full border border-slate-200 bg-white px-3 py-1 text-black outline-none transition focus:border-blue-300 w-28 lg:w-auto"
             />
           </div>
 
-          <Link to="/cart" className="relative hover:text-blue-200">
-            <span className="text-xl">🛒</span>
+          <Link to="/cart" className="relative hover:text-blue-200 p-1">
+            <span className="text-lg sm:text-xl">🛒</span>
             {getCartCount() > 0 && (
-              <span className="absolute -top-2 -right-2 inline-flex h-5 min-w-[18px] items-center justify-center rounded-full bg-red-500 px-1.5 text-[10px] font-bold text-white">
+              <span className="absolute -top-1 -right-1 inline-flex h-4 min-w-[16px] sm:h-5 sm:min-w-[18px] items-center justify-center rounded-full bg-red-500 px-1 sm:px-1.5 text-[8px] sm:text-[10px] font-bold text-white">
                 {getCartCount()}
               </span>
             )}
@@ -69,7 +69,7 @@ const Navbar = () => {
             <button
               onClick={handleLogout}
               title="Logout"
-              className="hidden sm:grid h-10 w-10 place-items-center rounded-full bg-white text-purple-900 font-bold transition hover:bg-slate-100"
+              className="hidden sm:grid h-8 w-8 md:h-10 md:w-10 place-items-center rounded-full bg-white text-purple-900 font-bold transition hover:bg-slate-100 text-sm md:text-base"
             >
               {user?.firstName ? user.firstName.charAt(0).toUpperCase() : 'U'}
             </button>
@@ -77,7 +77,7 @@ const Navbar = () => {
             <Link
               to="/login"
               title="Login"
-              className="hidden sm:grid h-10 w-10 place-items-center rounded-full bg-white text-purple-900 font-bold transition hover:bg-slate-100"
+              className="hidden sm:grid h-8 w-8 md:h-10 md:w-10 place-items-center rounded-full bg-white text-purple-900 font-bold transition hover:bg-slate-100 text-sm md:text-base"
             >
               👤
             </Link>
@@ -85,20 +85,20 @@ const Navbar = () => {
 
           <button
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 p-2 text-white transition hover:bg-white/20 md:hidden"
+            className="inline-flex h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 p-1.5 sm:p-2 text-white transition hover:bg-white/20 md:hidden"
             onClick={() => setIsOpen((prev) => !prev)}
             aria-label="Toggle navigation menu"
           >
             <span className="sr-only">Toggle menu</span>
-            <div className="relative h-5 w-5">
+            <div className="relative h-4 w-4 sm:h-5 sm:w-5">
               <span
-                className={`absolute left-0 top-0 h-0.5 w-full bg-current transition-transform duration-300 ${isOpen ? 'translate-y-2 rotate-45' : ''}`}
+                className={`absolute left-0 top-0 h-0.5 w-full bg-current transition-transform duration-300 ${isOpen ? 'translate-y-1.5 sm:translate-y-2 rotate-45' : ''}`}
               />
               <span
                 className={`absolute left-0 top-1/2 h-0.5 w-full bg-current transition-opacity duration-300 ${isOpen ? 'opacity-0' : 'opacity-100'}`}
               />
               <span
-                className={`absolute left-0 bottom-0 h-0.5 w-full bg-current transition-transform duration-300 ${isOpen ? '-translate-y-2 -rotate-45' : ''}`}
+                className={`absolute left-0 bottom-0 h-0.5 w-full bg-current transition-transform duration-300 ${isOpen ? '-translate-y-1.5 sm:-translate-y-2 -rotate-45' : ''}`}
               />
             </div>
           </button>

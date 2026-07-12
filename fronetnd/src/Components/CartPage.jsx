@@ -1,9 +1,54 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import {
+  getStateFromPincode,
+  getGST,
+  getDeliveryCharge,
+  calculatePriceBreakdown
+} from '../utils/gstCalculator';
 
 const CartPage = () => {
   const navigate = useNavigate();
   const { cartItems, removeFromCart, updateQuantity, getTotalPrice, getCartCount } = useCart();
+  const [pincode, setPincode] = useState('');
+  const [deliveryState, setDeliveryState] = useState(null);
+  const [pincodeError, setPincodeError] = useState('');
+
+  const handlePincodeChange = (e) => {
+    const value = e.target.value.replace(/\D/g, '').slice(0, 6);
+    setPincode(value);
+    setPincodeError('');
+
+    if (value.length === 6) {
+      const state = getStateFromPincode(value);
+      if (state) {
+        setDeliveryState(state);
+        setPincodeError('');
+      } else {
+        setDeliveryState(null);
+        setPincodeError('Could not identify delivery state for this pincode. Please check it is a valid Indian pincode.');
+      }
+    } else {
+      setDeliveryState(null);
+    }
+  };
+
+  const subtotal = getTotalPrice();
+  const priceBreakdown = deliveryState
+    ? calculatePriceBreakdown(subtotal, deliveryState)
+    : null;
+  const gstDetails = deliveryState ? getGST(deliveryState) : null;
+  const deliveryCharge = deliveryState ? getDeliveryCharge(deliveryState) : 0;
+
+  const formatGstLabel = (gst) => {
+    if (gst.type === 'intra-state') {
+      return `CGST 9% + SGST 9%`;
+    } else if (gst.type === 'inter-state') {
+      return `IGST 18%`;
+    }
+    return '—';
+  };
 
   if (cartItems.length === 0) {
     return (
@@ -102,30 +147,127 @@ const CartPage = () => {
             <div className="bg-white rounded-lg shadow-lg p-6 sticky top-4">
               <h2 className="text-2xl font-bold text-gray-800 mb-6">Order Summary</h2>
 
+              {/* Pincode Input */}
+              <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Delivery Pincode
+                </label>
+                <input
+                  type="text"
+                  value={pincode}
+                  onChange={handlePincodeChange}
+                  placeholder="Enter 6-digit pincode"
+                  maxLength={6}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-center tracking-widest text-lg"
+                />
+                {deliveryState && (
+                  <p className="text-sm text-green-600 mt-2 font-medium">
+                    ✓ Delivering to <span className="font-bold">{deliveryState}</span>
+                  </p>
+                )}
+                {pincodeError && (
+                  <p className="text-sm text-red-600 mt-2">{pincodeError}</p>
+                )}
+                {!pincode && (
+                  <p className="text-xs text-gray-500 mt-2">
+                    Enter pincode to calculate GST and delivery charges
+                  </p>
+                )}
+              </div>
+
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-700">
                   <span>Items ({getCartCount()})</span>
-                  <span>₹{getTotalPrice().toFixed(2)}</span>
+                  <span>₹{subtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-gray-700">
-                  <span>Shipping</span>
-                  <span className="text-green-600 font-semibold">Free</span>
-                </div>
-                <div className="flex justify-between text-gray-700">
-                  <span>Tax</span>
-                  <span>₹0</span>
-                </div>
+
+                {/* Delivery Charge */}
+                {deliveryState ? (
+                  <div className="flex justify-between text-gray-700">
+                    <span>Delivery Charge</span>
+                    <span className="font-semibold text-green-600">
+                      ₹{deliveryCharge.toFixed(2)}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="flex justify-between text-gray-700">
+                    <span>Delivery Charge</span>
+                    <span className="text-gray-400">—</span>
+                  </div>
+                )}
+
+                {/* GST */}
+                {gstDetails ? (
+                  <>
+                    <div className="border-t border-gray-200 pt-3">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                        Tax Breakdown {gstDetails.type === 'intra-state' ? '(Intra-State)' : '(Inter-State)'}
+                      </p>
+                      {gstDetails.type === 'intra-state' ? (
+                        <>
+                          <div className="flex justify-between text-sm text-gray-600">
+                            <span>CGST (9%)</span>
+                            <span>₹{(priceBreakdown.gst.amount / 2).toFixed(2)}</span>
+                          </div>
+                          <div className="flex justify-between text-sm text-gray-600">
+                            <span>SGST (9%)</span>
+                            <span>₹{(priceBreakdown.gst.amount / 2).toFixed(2)}</span>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="flex justify-between text-sm text-gray-600">
+                          <span>IGST (18%)</span>
+                          <span>₹{priceBreakdown.gst.amount.toFixed(2)}</span>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex justify-between text-gray-700">
+                    <span>GST</span>
+                    <span className="text-gray-400">—</span>
+                  </div>
+                )}
               </div>
 
-              <div className="border-t border-gray-200 pt-4 mb-6">
-                <div className="flex justify-between text-2xl font-bold text-purple-900">
-                  <span>Total</span>
-                  <span>₹{getTotalPrice().toFixed(2)}</span>
+              {/* Total */}
+              {priceBreakdown ? (
+                <>
+                  <div className="border-t border-gray-200 pt-4 mb-2">
+                    <div className="flex justify-between text-lg text-gray-600">
+                      <span>Subtotal</span>
+                      <span>₹{priceBreakdown.subtotal.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-sm text-gray-500 mt-1">
+                      <span>+ GST ({formatGstLabel(gstDetails)})</span>
+                      <span>₹{priceBreakdown.gst.amount.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-sm text-gray-500 mt-1">
+                      <span>+ Delivery</span>
+                      <span>₹{priceBreakdown.deliveryCharge.toFixed(2)}</span>
+                    </div>
+                  </div>
+                  <div className="border-t border-gray-200 pt-4 mb-6">
+                    <div className="flex justify-between text-2xl font-bold text-purple-900">
+                      <span>Total</span>
+                      <span>₹{priceBreakdown.total.toFixed(2)}</span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="border-t border-gray-200 pt-4 mb-6">
+                  <div className="flex justify-between text-2xl font-bold text-purple-900">
+                    <span>Total</span>
+                    <span>₹{subtotal.toFixed(2)}</span>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <button
-                onClick={() => navigate('/checkout')}
+                onClick={() => {
+                  const state = deliveryState || '';
+                  navigate(`/checkout?pincode=${pincode}&state=${encodeURIComponent(state)}`);
+                }}
                 className="w-full bg-purple-900 hover:bg-purple-800 text-white py-3 rounded-lg font-semibold transition-colors mb-4"
               >
                 Proceed to Checkout

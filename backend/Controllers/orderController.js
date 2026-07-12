@@ -4,7 +4,7 @@ import Payment from '../Model/Payment.js'
 
 export const createOrder = async (req, res) => {
   try {
-    const { items, shippingAddress, paymentMethod } = req.body
+    const { items, shippingAddress, paymentMethod, subtotal, deliveryCharge, gstAmount, gstType, totalAmount } = req.body
     
     if (!items || items.length === 0) {
       return res.status(400).json({ success: false, message: 'No order items' })
@@ -28,7 +28,7 @@ export const createOrder = async (req, res) => {
       }
     }))
 
-    const totalPrice = populatedItems.reduce((sum, it) => sum + it.price * it.quantity, 0)
+    const itemsSubtotal = populatedItems.reduce((sum, it) => sum + it.price * it.quantity, 0)
 
     // Determine initial payment status based on payment method
     const paymentStatus = paymentMethod === 'cod' ? 'pending' : 'pending'
@@ -41,7 +41,11 @@ export const createOrder = async (req, res) => {
       paymentMethod: paymentMethod || 'cod',
       paymentStatus,
       status: initialStatus,
-      totalPrice 
+      subtotal: subtotal || itemsSubtotal,
+      deliveryCharge: deliveryCharge || 0,
+      gstAmount: gstAmount || 0,
+      gstType: gstType || 'none',
+      totalPrice: totalAmount || itemsSubtotal
     })
 
     // Populate for response

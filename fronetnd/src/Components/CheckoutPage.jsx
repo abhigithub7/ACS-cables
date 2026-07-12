@@ -1,19 +1,29 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useOrders } from '../context/OrdersContext';
 import { createPaymentOrder, verifyPaymentSignature, createOrder as apiCreateOrder } from '../api';
+import {
+  getStateFromPincode,
+  getGST,
+  getDeliveryCharge,
+  calculatePriceBreakdown
+} from '../utils/gstCalculator';
 
 const CheckoutPage = () => {
   const { cartItems, getTotalPrice, clearCart } = useCart();
   const { addOrder } = useOrders();
   const navigate = useNavigate();
-  
+  const [searchParams] = useSearchParams();
+
+  const prefillPincode = searchParams.get('pincode') || '';
+  const prefillState = searchParams.get('state') || '';
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState(null);
-  
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -21,8 +31,8 @@ const CheckoutPage = () => {
     phone: '',
     address: '',
     city: '',
-    state: '',
-    zipCode: '',
+    state: prefillState,
+    zipCode: prefillPincode,
     paymentMethod: 'cod',
   });
 
@@ -50,6 +60,19 @@ const CheckoutPage = () => {
 
     if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))) {
       setError('Please enter a valid 10-digit phone number');
+      return false;
+    }
+
+    const pin = formData.zipCode.replace(/\D/g, '');
+    if (pin.length !== 6) {
+      setError('Please enter a valid 6-digit pincode');
+      return false;
+    }
+
+    // Validate pincode maps to state
+    const stateFromPin = getStateFromPincode(pin);
+    if (!stateFromPin) {
+      setError('Could not identify delivery state from pincode. Please enter a valid Indian pincode.');
       return false;
     }
 
@@ -92,9 +115,15 @@ const CheckoutPage = () => {
         throw new Error('Razorpay key is missing. Please configure VITE_RAZORPAY_KEY in the frontend .env file.');
       }
 
+      // Calculate total with GST and delivery for payment
+      const deliveryState = getStateFromPincode(formData.zipCode);
+      const priceBreakdown = deliveryState
+        ? calculatePriceBreakdown(getTotalPrice(), deliveryState)
+        : null;
+      const totalForPayment = priceBreakdown ? priceBreakdown.total : getTotalPrice();
+
       // Create payment order on backend
-      const totalPrice = parseFloat(getTotalPrice().toFixed(2));
-      const paymentRes = await createPaymentOrder(totalPrice, order._id);
+      const paymentRes = await createPaymentOrder(totalForPayment, order._id);
       if (!paymentRes.success) {
         throw new Error(paymentRes.message || 'Failed to initiate payment');
       }
@@ -171,10 +200,16 @@ const CheckoutPage = () => {
       }
 
       // Create order in database
+      const deliveryState = getStateFromPincode(formData.zipCode);
+      const priceBreakdown = deliveryState
+        ? calculatePriceBreakdown(getTotalPrice(), deliveryState)
+        : null;
+
       const orderPayload = {
         items: cartItems.map(item => ({
           product: item._id || item.id,
-          quantity: item.quantity
+          quantity: item.quantity,
+          price: item.price,
         })),
         shippingAddress: {
           street: formData.address,
@@ -183,7 +218,12 @@ const CheckoutPage = () => {
           zipCode: formData.zipCode,
           country: 'India'
         },
-        paymentMethod: formData.paymentMethod
+        paymentMethod: formData.paymentMethod,
+        subtotal: getTotalPrice(),
+        deliveryCharge: priceBreakdown ? priceBreakdown.deliveryCharge : 0,
+        gstAmount: priceBreakdown ? priceBreakdown.gst.amount : 0,
+        gstType: priceBreakdown ? priceBreakdown.gst.type : 'none',
+        totalAmount: priceBreakdown ? priceBreakdown.total : getTotalPrice(),
       };
 
       const orderRes = await apiCreateOrder(orderPayload);
@@ -203,6 +243,24 @@ const CheckoutPage = () => {
       setError(err.message || 'Failed to place order');
       setLoading(false);
     }
+  };
+
+  // Calculate price breakdown for display
+  const deliveryState = formData.zipCode.length === 6
+    ? getStateFromPincode(formData.zipCode)
+    : null;
+  const priceBreakdown = deliveryState
+    ? calculatePriceBreakdown(getTotalPrice(), deliveryState)
+    : null;
+  const gstDetails = deliveryState ? getGST(deliveryState) : null;
+
+  const formatGstLabel = (gst) => {
+    if (gst.type === 'intra-state') {
+      return 'CGST 9% + SGST 9%';
+    } else if (gst.type === 'inter-state') {
+      return 'IGST 18%';
+    }
+    return '—';
   };
 
   if (cartItems.length === 0 && !orderPlaced) {
@@ -259,7 +317,7 @@ const CheckoutPage = () => {
               {/* Shipping Information */}
               <div className="bg-white rounded-lg shadow-lg p-6">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">Shipping Information</h2>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div>
                     <label className="block text-gray-700 font-semibold mb-2">First Name *</label>
@@ -331,7 +389,7 @@ const CheckoutPage = () => {
                       value={formData.city}
                       onChange={handleInputChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      placeholder="New York"
+                      placeholder="Mumbai"
                     />
                   </div>
                   <div>
@@ -342,8 +400,13 @@ const CheckoutPage = () => {
                       value={formData.state}
                       onChange={handleInputChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      placeholder="NY"
+                      placeholder="Maharashtra"
                     />
+                    {deliveryState && (
+                      <p className="text-xs text-green-600 mt-1">
+                        ✓ State identified from pincode: {deliveryState}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <label className="block text-gray-700 font-semibold mb-2">Zip Code *</label>
@@ -353,8 +416,14 @@ const CheckoutPage = () => {
                       value={formData.zipCode}
                       onChange={handleInputChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      placeholder="10001"
+                      placeholder="400001"
+                      maxLength={6}
                     />
+                    {formData.zipCode.length === 6 && !deliveryState && (
+                      <p className="text-xs text-red-500 mt-1">
+                        Could not identify state. Please check pincode.
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -380,7 +449,7 @@ const CheckoutPage = () => {
                       <p className="text-xs text-gray-600">Credit/Debit Card, UPI, Wallet</p>
                     </div>
                   </label>
-                  
+
                   <label className={`border-2 rounded-lg p-4 cursor-pointer flex items-center gap-3 transition-all ${
                     formData.paymentMethod === 'cod' ? 'border-purple-600 bg-purple-50' : 'border-gray-300 hover:border-purple-400'
                   }`}>
@@ -411,7 +480,7 @@ const CheckoutPage = () => {
                 disabled={loading}
                 className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white py-4 rounded-lg font-bold text-lg transition-colors"
               >
-                {loading ? 'Processing...' : 'Place Order'}
+                {loading ? 'Processing...' : `Place Order - ₹${priceBreakdown ? priceBreakdown.total.toFixed(2) : getTotalPrice().toFixed(2)}`}
               </button>
             </form>
           </div>
@@ -438,20 +507,43 @@ const CheckoutPage = () => {
                   <span>Subtotal</span>
                   <span>₹{getTotalPrice().toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-gray-700">
-                  <span>Shipping</span>
-                  <span className="text-green-600 font-semibold">Free</span>
-                </div>
-                <div className="flex justify-between text-gray-700">
-                  <span>Tax</span>
-                  <span>₹0.00</span>
-                </div>
+
+                {priceBreakdown ? (
+                  <>
+                    <div className="flex justify-between text-gray-700">
+                      <span>Delivery Charge</span>
+                      <span className="font-semibold text-green-600">
+                        ₹{priceBreakdown.deliveryCharge.toFixed(2)}
+                      </span>
+                    </div>
+                    <div className="border-t border-gray-100 pt-2">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                        Tax {gstDetails.type === 'intra-state' ? '(Intra-State)' : '(Inter-State)'}
+                      </p>
+                      <div className="flex justify-between text-sm text-gray-600">
+                        <span>{formatGstLabel(gstDetails)}</span>
+                        <span>₹{priceBreakdown.gst.amount.toFixed(2)}</span>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex justify-between text-gray-700">
+                      <span>Delivery Charge</span>
+                      <span className="text-gray-400">—</span>
+                    </div>
+                    <div className="flex justify-between text-gray-700">
+                      <span>Tax</span>
+                      <span className="text-gray-400">—</span>
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className="border-t border-gray-200 mt-4 pt-4">
                 <div className="flex justify-between text-2xl font-bold text-purple-900">
                   <span>Total</span>
-                  <span>₹{getTotalPrice().toFixed(2)}</span>
+                  <span>₹{priceBreakdown ? priceBreakdown.total.toFixed(2) : getTotalPrice().toFixed(2)}</span>
                 </div>
               </div>
 

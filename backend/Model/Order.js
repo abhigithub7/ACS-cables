@@ -21,6 +21,10 @@ const orderSchema = new mongoose.Schema(
     paymentMethod: { type: String, enum: ['razorpay', 'cod', 'upi'], default: 'cod' },
     paymentStatus: { type: String, enum: ['pending', 'completed', 'failed', 'refunded'], default: 'pending' },
     payment: { type: mongoose.Schema.Types.ObjectId, ref: 'Payment', sparse: true },
+    subtotal: { type: Number, default: 0 },
+    deliveryCharge: { type: Number, default: 0 },
+    gstAmount: { type: Number, default: 0 },
+    gstType: { type: String, enum: ['intra-state', 'inter-state', 'none'], default: 'none' },
     totalPrice: { type: Number, required: true },
     status: { type: String, enum: ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'], default: 'pending' },
     notes: String

@@ -4,7 +4,7 @@ const Slider = () => {
   const slides = [
     {
       id: 1,
-      image: "https://res.cloudinary.com/dcupo5fge/image/upload/v1781889359/ChatGPT_Image_Jun_19_2026_10_38_28_PM_e0aiaj.png",
+      image: "https://res.cloudinary.com/dcupo5fge/image/upload/v1782641618/WhatsApp_Image_2026-06-28_at_15.41.11_hprznc.jpg",
     },
     {
       id: 2,
@@ -43,8 +43,7 @@ const Slider = () => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        height: 'clamp(200px, 45vw, 520px)',
-        maxHeight: '330px'
+        height: 'clamp(180px, 45vw, 450px)',
       }}
     >
       {/* Slides Container */}
@@ -57,11 +56,10 @@ const Slider = () => {
             key={slide.id}
             className="relative w-full h-full shrink-0 snap-center overflow-hidden"
           >
-            {/* Image with object-contain to show full image without cropping */}
             <img
               src={slide.image}
               alt={`Slide ${slide.id}`}
-              className="w-full h-full object-contain md:object-cover object-center bg-gray-900"
+              className="w-full h-full object-cover object-center bg-gray-900"
               loading={slide.id === 1 ? 'eager' : 'lazy'}
             />
             {/* Gradient Overlay */}
@@ -70,7 +68,7 @@ const Slider = () => {
         ))}
       </div>
 
-      {/* Navigation Arrows - Always visible on mobile, fade on desktop */}
+      {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
         className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 
@@ -99,15 +97,15 @@ const Slider = () => {
       </button>
 
       {/* Dots */}
-      <div className="absolute bottom-3 sm:bottom-5 left-1/2 transform -translate-x-1/2 flex items-center gap-2 sm:gap-3 z-10">
+      <div className="absolute bottom-2 sm:bottom-5 left-1/2 transform -translate-x-1/2 flex items-center gap-1.5 sm:gap-3 z-10 max-w-full px-2">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`transition-all duration-300 rounded-full ${
+            className={`transition-all duration-300 rounded-full shrink-0 ${
               index === currentSlide
-                ? 'w-8 sm:w-10 h-2.5 sm:h-3 bg-blue-500 shadow-lg shadow-blue-500/50'
-                : 'w-2.5 h-2.5 sm:w-3 sm:h-3 bg-white/50 hover:bg-white/80'
+                ? 'w-6 sm:w-10 h-2 sm:h-3 bg-blue-500 shadow-lg shadow-blue-500/50'
+                : 'w-2 h-2 sm:w-3 sm:h-3 bg-white/50 hover:bg-white/80'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           ></button>

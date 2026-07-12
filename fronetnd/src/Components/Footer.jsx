@@ -17,7 +17,7 @@ const Footer = () => {
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 <span className="text-2xl"><img className='h-8 w-8' src={insta} alt="" /></span>
               </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
+              <a href="https://www.facebook.com/profile.php?id=61590617276821" className="text-gray-300 hover:text-white transition-colors">
                 <span className="text-2xl"><img className='h-8 w-8' src={fb} alt="" /></span>
               </a>
               <a href="#" className="text-gray-300 hover:text-white transition-colors">
@@ -56,27 +56,27 @@ const Footer = () => {
           {/* Contact Info */}
           <div>
             <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
-            <div className="space-y-2 text-gray-300">
-              <p>📍 Plot No. 52/62 Phase 2 IT park Bargi Hills, Jabalpur, Madhya Pradesh 482003</p>
+            <div className="space-y-2 text-gray-300 text-sm sm:text-base break-words">
+              <p>📍 Plot No. 52/62 Phase 2 IT park Bargi Hills, Jabalpur, MP 482003</p>
               <p>📞 07612999707</p>
-              <p>✉️ acsdatacablesindia@gmail.com</p>
+              <p className="break-all">✉️ acsdatacablesindia@gmail.com</p>
               <p>🕒 Mon-Fri: 10AM-7PM </p>
             </div>
           </div>
         </div>
 
-        {/* Newsletter Signup */}
+      {/* Newsletter Signup */}
         <div className="mt-8 pt-8 border-t border-gray-700">
-          <div className="max-w-md mx-auto text-center">
+          <div className="max-w-md mx-auto text-center px-4">
             <h4 className="text-lg font-semibold mb-4">Stay Updated</h4>
-            <p className="text-gray-300 mb-4">Subscribe to our newsletter for the latest deals and product updates.</p>
-            <div className="flex">
+            <p className="text-gray-300 mb-4 text-sm sm:text-base">Subscribe to our newsletter for the latest deals and product updates.</p>
+            <div className="flex flex-col sm:flex-row">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 bg-white py-2 rounded-l-lg text-gray-800 focus:outline-none"
+                className="w-full sm:flex-1 px-4 bg-white py-2 rounded-lg sm:rounded-l-lg sm:rounded-r-none text-gray-800 focus:outline-none mb-2 sm:mb-0"
               />
-              <button className="bg-purple-950 hover:bg-blue-700 px-6 py-2 rounded-r-lg font-medium transition-colors">
+              <button className="bg-purple-950 hover:bg-blue-700 px-6 py-2 rounded-lg sm:rounded-l-none sm:rounded-r-lg font-medium transition-colors whitespace-nowrap">
                 Subscribe
               </button>
             </div>
@@ -84,7 +84,7 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+        <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm sm:text-base">
           <p>&copy; 2026 Abhi Developer. All rights reserved.</p>
         </div>
       </div>

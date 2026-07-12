@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { fetchProductById } from '../api';
 import { useEffect, useState } from 'react';
@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 const ProductDetails = () => {
   const { id } = useParams();
   const { addToCart } = useCart();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -28,6 +29,11 @@ const ProductDetails = () => {
   const handleAddToCart = () => {
     addToCart(product);
     alert(`${product.name} added to cart!`);
+  };
+
+  const handleBuyNow = () => {
+    addToCart(product);
+    navigate('/checkout');
   };
 
   if (error) {
@@ -68,12 +74,12 @@ const ProductDetails = () => {
   return (
     <main className="container mx-auto px-4 py-10">
       <div className="flex flex-col lg:flex-row gap-8">
-        <div className="w-full lg:w-[450px]">
-          <div className="h-[300px] md:h-[380px] border border-gray-300 rounded-md overflow-hidden mb-3">
+        <div className="w-full lg:w-[450px] lg:sticky lg:top-24 lg:self-start">
+          <div className="aspect-square md:aspect-[4/3] border border-gray-300 rounded-md overflow-hidden mb-3 bg-gray-50">
             <img
               src={allImages[selectedImage]}
               alt={product.name}
-              className="w-full h-full object-fill"
+              className="w-full h-auto object-cover"
             />
           </div>
           {allImages.length > 1 && (
@@ -82,7 +88,7 @@ const ProductDetails = () => {
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`flex-shrink-0 w-20 h-20 border-2 rounded-md overflow-hidden transition-all ${
+                  className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 border-2 rounded-md overflow-hidden transition-all ${
                     index === selectedImage
                       ? 'border-purple-900 opacity-100'
                       : 'border-gray-300 opacity-80 hover:opacity-80'
@@ -99,20 +105,18 @@ const ProductDetails = () => {
           )}
         </div>
 
-        <div className="lg:w-1/2 bg-white rounded-xl  p-8">
+        <div className="flex-1 bg-white rounded-xl p-4 sm:p-6 md:p-8">
           <div className="flex flex-col gap-4">
             <div>
-              <h1 className="text-3xl font-bold mb-3">{product.name}</h1>
-              <p className="text-gray-600 text-lg">{product.description}</p>
+              <h1 className="text-2xl sm:text-3xl font-bold mb-3">{product.name}</h1>
+              <p className="text-gray-600 text-base sm:text-lg">{product.description}</p>
             </div>
 
             <div className="flex items-center gap-4">
-              <span className="text-4xl font-bold text-purple-900">₹{product.price}</span>
-
+              <span className="text-3xl sm:text-4xl font-bold text-purple-900">₹{product.price}</span>
               <span className="px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm">In Stock</span>
-             
             </div>
-             <div className='text-2xl'>★★★⯪☆</div>
+             <div className='text-xl sm:text-2xl'>★★★⯪☆</div>
 
             <p className="text-gray-700 leading-relaxed">{product.fullDescription}</p>
 
@@ -122,6 +126,12 @@ const ProductDetails = () => {
                 className="bg-purple-600 hover:bg-green-700 text-white rounded-lg px-6 py-3 font-medium transition-colors"
               >
                 Add to Cart
+              </button>
+              <button
+                onClick={handleBuyNow}
+                className="bg-green-700 hover:bg-green-600 text-white rounded-lg px-6 py-3 font-medium transition-colors"
+              >
+                Buy Now
               </button>
               <Link
                 to="/products"
@@ -136,7 +146,6 @@ const ProductDetails = () => {
               <ul className="space-y-2 text-gray-600">
                 <li><span className="font-semibold text-gray-800">Category:</span> {product.category || 'Computer Accessories'}</li>
                 <li><span className="font-semibold text-gray-800">Availability:</span> In Stock</li>
-                <li><span className="font-semibold text-gray-800">Warranty:</span> 1 Year Manufacturer Warranty</li>
                 <li><span className="font-semibold text-gray-800">SKU:</span> PROD-{String(productId).slice(-4).toUpperCase()}</li>
               </ul>
             </div>
