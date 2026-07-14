@@ -1,6 +1,14 @@
+import SEO from './SEO'
+
 const AboutPage = () => {
   return (
-    <main className="container mx-auto px-4 py-14">
+    <>
+      <SEO
+        title="About Us - ACS Cables | Premium Cable & Wire Solutions"
+        description="Learn about ACS Cables - your trusted provider of premium quality cables, wires, and electrical solutions in India. Quality products, smart advice, and fast support."
+        ogUrl="/about"
+      />
+      <main className="container mx-auto px-4 py-14">
       <section className="rounded-3xl bg-white shadow-lg p-8 sm:p-12">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="space-y-4">
@@ -43,6 +51,7 @@ const AboutPage = () => {
         </div>
       </section>
     </main>
+    </>
   );
 };
 

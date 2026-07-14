@@ -1,8 +1,22 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../api';
+import SEO from './SEO';
 
 const LoginPage = () => {
+  return (
+    <>
+      <SEO
+        title="Login - ACS Cables | Sign In to Your Account"
+        description="Log in to your ACS Cables account to access orders, manage your profile, and enjoy a personalized shopping experience."
+        ogUrl="/login"
+      />
+      <LoginPageContent />
+    </>
+  );
+};
+
+const LoginPageContent = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [status, setStatus] = useState('');
   const navigate = useNavigate();

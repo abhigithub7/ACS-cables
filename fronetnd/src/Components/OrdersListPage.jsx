@@ -1,7 +1,21 @@
 import { Link } from 'react-router-dom';
 import { useOrders } from '../context/OrdersContext';
+import SEO from './SEO';
 
 const OrdersListPage = () => {
+  return (
+    <>
+      <SEO
+        title="My Orders - ACS Cables | Order Tracking"
+        description="Track and manage your orders at ACS Cables. View order status, shipping details, and download invoices for your cable and wire purchases."
+        ogUrl="/orders"
+      />
+      <OrdersListPageContent />
+    </>
+  );
+};
+
+const OrdersListPageContent = () => {
   const { orders } = useOrders();
 
   const normalizeStatus = (status) => {

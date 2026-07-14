@@ -1,8 +1,22 @@
 import { useMemo, useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
 import { fetchProducts } from '../api';
+import SEO from './SEO';
 
 const ProductList = () => {
+  return (
+    <>
+      <SEO
+        title="All Products - ACS Cables | Browse Our Cable & Wire Collection"
+        description="Browse our complete collection of premium cables, wires, and electrical solutions at ACS Cables. Filter by category, price, and search to find exactly what you need."
+        ogUrl="/products"
+      />
+      <ProductListContent />
+    </>
+  );
+};
+
+const ProductListContent = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [maxPrice, setMaxPrice] = useState(0);

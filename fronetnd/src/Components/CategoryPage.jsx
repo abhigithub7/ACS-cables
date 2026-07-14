@@ -2,8 +2,22 @@ import { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from './ProductCard';
 import { fetchProducts } from '../api';
+import SEO from './SEO';
 
 const CategoryPage = () => {
+  return (
+    <>
+      <SEO
+        title="Categories - ACS Cables | Browse by Category"
+        description="Browse our wide range of cables, wires, and electrical accessories by category at ACS Cables. Find the perfect product for your needs."
+        ogUrl="/categories"
+      />
+      <CategoryPageContent />
+    </>
+  );
+};
+
+const CategoryPageContent = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

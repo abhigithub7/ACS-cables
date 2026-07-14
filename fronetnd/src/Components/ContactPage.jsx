@@ -1,6 +1,20 @@
 import { useState } from 'react';
+import SEO from './SEO';
 
 const ContactPage = () => {
+  return (
+    <>
+      <SEO
+        title="Contact Us - ACS Cables | Get In Touch"
+        description="Contact ACS Cables for queries about orders, products, or support. Email us at acsdatacablesindia@gmail.com or call +91 07612999707."
+        ogUrl="/contact"
+      />
+      <ContactPageContent />
+    </>
+  );
+};
+
+const ContactPageContent = () => {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState('');
 

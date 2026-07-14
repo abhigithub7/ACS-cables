@@ -16,6 +16,7 @@ import CheckoutPage from './Components/CheckoutPage'
 import OrdersListPage from './Components/OrdersListPage'
 import Footer from './Components/Footer'
 import ScrollToTop from './Components/ScrollToTop.jsx'
+import SEO from './Components/SEO'
 
 const App = () => {
   return (
@@ -26,12 +27,17 @@ const App = () => {
           <ScrollToTop/>
         <div>
           <Navbar />
-          <main className="pt-16">
+          <main className=" md:pt-21 pt-20 ">
             <Routes>
               <Route
                 path="/"
                 element={
                   <>
+                    <SEO
+                      title="ACS Cables - Premium Cable & Wire Solutions in India"
+                      description="Shop premium quality cables, wires, and electrical solutions at ACS Cables. Best prices with GST billing. Wide range of power cables, coaxial cables, and more."
+                      ogUrl="/"
+                    />
                     <Slider />
                     <FeaturedProducts />
                   </>

@@ -2,6 +2,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { fetchProductById } from '../api';
 import { useEffect, useState } from 'react';
+import SEO from './SEO';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -36,31 +37,48 @@ const ProductDetails = () => {
     navigate('/checkout');
   };
 
+  // SEO title/description derived from product data (safe when product is null)
+  const productName = product?.name || 'Product'
+  const productDesc = product?.description || 'View product details at ACS Cables'
+  const productImage = product?.images?.[0] || product?.image || '/logo.svg'
+
   if (error) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center px-4 py-16">
-        <div className="max-w-md text-center bg-white rounded-xl shadow-md p-8">
-          <h2 className="text-2xl font-bold mb-4">Product not found</h2>
-          <p className="text-gray-600 mb-6">{error}</p>
-          <Link to="/" className="inline-block bg-purple-900 hover:bg-purple-800 text-white px-6 py-2 rounded-lg transition-colors">
-            Back to Shop
-          </Link>
+      <>
+        <SEO
+          title="Product Not Found - ACS Cables"
+          description="The product you are looking for could not be found. Browse our full collection of cables and wires at ACS Cables."
+        />
+        <div className="min-h-[60vh] flex items-center justify-center px-4 py-16">
+          <div className="max-w-md text-center bg-white rounded-xl shadow-md p-8">
+            <h2 className="text-2xl font-bold mb-4">Product not found</h2>
+            <p className="text-gray-600 mb-6">{error}</p>
+            <Link to="/" className="inline-block bg-purple-900 hover:bg-purple-800 text-white px-6 py-2 rounded-lg transition-colors">
+              Back to Shop
+            </Link>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   if (!product) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center px-4 py-16">
-        <div className="max-w-md text-center bg-white rounded-xl shadow-md p-8">
-          <div className="flex items-center justify-center mb-4">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-900"></div>
+      <>
+        <SEO
+          title="Loading Product - ACS Cables"
+          description="Loading product details from ACS Cables."
+        />
+        <div className="min-h-[60vh] flex items-center justify-center px-4 py-16">
+          <div className="max-w-md text-center bg-white rounded-xl shadow-md p-8">
+            <div className="flex items-center justify-center mb-4">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-900"></div>
+            </div>
+            <h2 className="text-2xl font-bold mb-4">Loading product...</h2>
+            <p className="text-gray-600 mb-6">Please wait while we fetch the product details.</p>
           </div>
-          <h2 className="text-2xl font-bold mb-4">Loading product...</h2>
-          <p className="text-gray-600 mb-6">Please wait while we fetch the product details.</p>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -72,7 +90,14 @@ const ProductDetails = () => {
       : ['https://via.placeholder.com/500x500?text=No+Image']
 
   return (
-    <main className="container mx-auto px-4 py-10">
+    <>
+      <SEO
+        title={`${productName} - ACS Cables | Premium Cables & Wires`}
+        description={`Buy ${productName} at ACS Cables. ${productDesc}. Available at best price with GST billing. Shop now!`}
+        ogUrl={`/product/${id}`}
+        ogImage={productImage}
+      />
+      <main className="container mx-auto px-4 py-10">
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="w-full lg:w-[450px] lg:sticky lg:top-24 lg:self-start">
           <div className="aspect-square md:aspect-[4/3] border border-gray-300 rounded-md overflow-hidden mb-3 bg-gray-50">
@@ -153,6 +178,7 @@ const ProductDetails = () => {
         </div>
       </div>
     </main>
+    </>
   );
 };
 

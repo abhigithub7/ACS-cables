@@ -7,8 +7,22 @@ import {
   getDeliveryCharge,
   calculatePriceBreakdown
 } from '../utils/gstCalculator';
+import SEO from './SEO';
 
 const CartPage = () => {
+  return (
+    <>
+      <SEO
+        title="Shopping Cart - ACS Cables"
+        description="Review your shopping cart at ACS Cables. View items, calculate GST and delivery charges, and proceed to checkout securely."
+        ogUrl="/cart"
+      />
+      <CartPageContent />
+    </>
+  );
+};
+
+const CartPageContent = () => {
   const navigate = useNavigate();
   const { cartItems, removeFromCart, updateQuantity, getTotalPrice, getCartCount } = useCart();
   const [pincode, setPincode] = useState('');

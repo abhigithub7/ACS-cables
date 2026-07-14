@@ -9,8 +9,22 @@ import {
   getDeliveryCharge,
   calculatePriceBreakdown
 } from '../utils/gstCalculator';
+import SEO from './SEO';
 
 const CheckoutPage = () => {
+  return (
+    <>
+      <SEO
+        title="Checkout - ACS Cables | Secure Order Processing"
+        description="Complete your purchase at ACS Cables. Fast and secure checkout with multiple payment options including Razorpay and Cash on Delivery."
+        ogUrl="/checkout"
+      />
+      <CheckoutPageContent />
+    </>
+  );
+};
+
+const CheckoutPageContent = () => {
   const { cartItems, getTotalPrice, clearCart } = useCart();
   const { addOrder } = useOrders();
   const navigate = useNavigate();

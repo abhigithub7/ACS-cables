@@ -39,7 +39,7 @@ const Slider = () => {
 
   return (
     <div
-      className="relative w-full overflow-hidden bg-gray-900"
+      className="relative  w-full overflow-hidden bg-gray-900"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{

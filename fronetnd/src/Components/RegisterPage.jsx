@@ -1,8 +1,22 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../api';
+import SEO from './SEO';
 
 const RegisterPage = () => {
+  return (
+    <>
+      <SEO
+        title="Register - ACS Cables | Create Your Account"
+        description="Create your ACS Cables account to save favorites, track orders, and access exclusive offers. Quick and easy registration."
+        ogUrl="/register"
+      />
+      <RegisterPageContent />
+    </>
+  );
+};
+
+const RegisterPageContent = () => {
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '', phone: '', street: '', city: '', state: '', zipCode: '' });
   const [status, setStatus] = useState('');
   const navigate = useNavigate();
