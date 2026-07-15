@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
     sitemapPlugin({
-      hostname: 'https://www.acscables.in/',
+      hostname: 'https://acscables.in/',
       routes: [
         '/',
         '/products',
