@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
     sitemapPlugin({
-      hostname: 'https://acs-cables.vercel.app',
+      hostname: 'https://www.acscables.in/',
       routes: [
         '/',
         '/products',
