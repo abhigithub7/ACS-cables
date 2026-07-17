@@ -7,7 +7,7 @@ const ProductCard = ({ product }) => {
     <Link to={`/product/${id}`} className="block min-w-0 h-full">
       <div className="bg-[#ffffff0a] backdrop-blur-lg rounded-lg hover:scale-[102%] transition-transform duration-200 flex flex-col p-[3px] md:p-2 cursor-pointer border border-[#80808049] h-full">
         {/* Fixed height image container for equal image sizes across all products */}
-        <div className="w-full h-40 sm:h-44 md:h-48 overflow-hidden rounded-sm bg-gray-100 flex items-center justify-center">
+        <div className="w-full h-30 sm:h-44 md:h-48 overflow-hidden rounded-sm bg-gray-100 flex items-center justify-center">
           <img
             src={product.images?.[0] || product.image || 'https://via.placeholder.com/500x350?text=No+Image'}
             alt={product.name}

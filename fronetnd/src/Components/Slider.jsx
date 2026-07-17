@@ -39,11 +39,11 @@ const Slider = () => {
 
   return (
     <div
-      className="relative   mt-2 rounded-lg  w-full overflow-hidden bg-gray-900"
+      className="relative   mt-2.5 rounded-lg  w-full overflow-hidden bg-gray-900"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        height: 'clamp(115px, 20vw, 500px)',
+        height: 'clamp(130px, 20vw, 500px)',
       }}
     >
       {/* Slides Container */}

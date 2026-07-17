@@ -31,7 +31,7 @@ const App = () => {
           <Navbar />
    
           <main className="pt-13">
-             <div className="flex mx-2 bg-white rounded-xl overflow-hidden">
+             <div className="flex mx-2 bg-white rounded-md overflow-hidden">
 
         <input
             type="text"

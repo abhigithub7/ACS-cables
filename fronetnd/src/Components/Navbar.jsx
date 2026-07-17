@@ -90,7 +90,7 @@ const Navbar = () => {
         </div>
 
         <div className=" flex-1 min-w-0 items-center gap-4 lg:gap-8 font-medium">
-          <div className="flex-1 mx-4">
+          <div className="flex-1 hidden lg:block mx-4">
 
     <form onSubmit={handleSearch} className="flex bg-gray-400 w-full overflow-hidden rounded-md border">
 
