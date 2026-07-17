@@ -4,7 +4,7 @@ const Slider = () => {
   const slides = [
     {
       id: 1,
-      image: "https://res.cloudinary.com/dcupo5fge/image/upload/v1782641618/WhatsApp_Image_2026-06-28_at_15.41.11_hprznc.jpg",
+      image: "https://res.cloudinary.com/dcupo5fge/image/upload/v1784308657/ChatGPT_Image_Jul_17_2026_10_44_09_PM_epsl2a.png",
     },
     {
       id: 2,
@@ -39,11 +39,11 @@ const Slider = () => {
 
   return (
     <div
-      className="relative  w-full overflow-hidden bg-gray-900"
+      className="relative   mt-2 rounded-lg  w-full overflow-hidden bg-gray-900"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        height: 'clamp(180px, 45vw, 450px)',
+        height: 'clamp(115px, 20vw, 500px)',
       }}
     >
       {/* Slides Container */}
@@ -54,12 +54,12 @@ const Slider = () => {
         {slides.map((slide) => (
           <div
             key={slide.id}
-            className="relative w-full h-full shrink-0 snap-center overflow-hidden"
+            className="relative w-full h-full object-contain shrink-0 snap-center overflow-hidden"
           >
             <img
               src={slide.image}
               alt={`Slide ${slide.id}`}
-              className="w-full h-full object-cover object-center bg-gray-900"
+              className="w-full h-full  bg-gray-900"
               loading={slide.id === 1 ? 'eager' : 'lazy'}
             />
             {/* Gradient Overlay */}

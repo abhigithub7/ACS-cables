@@ -92,66 +92,66 @@ const CartPageContent = () => {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-lg p-6">
               {cartItems.map(item => (
-                <div
-                  key={item.id}
-                  className="flex gap-4 pb-6 border-b border-gray-200 last:border-b-0 last:pb-0"
-                >
-                  {/* Product Image */}
-                  <div className="w-24 h-24 flex-shrink-0">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-cover rounded-lg"
-                    />
-                  </div>
+                  <div
+                    key={item.id}
+                    className="flex gap-2 sm:gap-4 pb-6 border-b border-gray-200 last:border-b-0 last:pb-0"
+                  >
+                    {/* Product Image */}
+                    <div className="w-16 h-16 sm:w-24 sm:h-24 flex-shrink-0 bg-gray-50 rounded-lg overflow-hidden">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-contain p-1 rounded-lg"
+                      />
+                    </div>
 
-                  {/* Product Details */}
-                  <div className="flex-grow">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                      {item.name}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-4">{item.description}</p>
+                    {/* Product Details */}
+                    <div className="flex-grow min-w-0">
+                      <h3 className="text-sm sm:text-lg font-semibold text-gray-800 mb-1 sm:mb-2 overflow-hidden text-ellipsis whitespace-nowrap">
+                        {item.name}
+                      </h3>
+                      <p className="text-gray-600 text-xs sm:text-sm mb-2 sm:mb-4 overflow-hidden text-ellipsis whitespace-nowrap">{item.description}</p>
 
-                    {/* Quantity and Price */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <button
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded transition-colors"
-                        >
-                          −
-                        </button>
-                        <span className="text-lg font-semibold text-gray-800 w-8 text-center">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded transition-colors"
-                        >
-                          +
-                        </button>
-                      </div>
+                      {/* Quantity and Price */}
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        <div className="flex items-center gap-2 sm:gap-3">
+                          <button
+                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                            className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-2 sm:px-3 py-0.5 sm:py-1 rounded transition-colors text-sm sm:text-base"
+                          >
+                            −
+                          </button>
+                          <span className="text-base sm:text-lg font-semibold text-gray-800 w-6 sm:w-8 text-center">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-2 sm:px-3 py-0.5 sm:py-1 rounded transition-colors text-sm sm:text-base"
+                          >
+                            +
+                          </button>
+                        </div>
 
-                      <div className="text-right">
-                        <p className="text-sm text-gray-600 mb-1">
-                          ₹{item.price} × {item.quantity}
-                        </p>
-                        <p className="text-xl font-bold text-purple-900">
-                          ₹{(item.price * item.quantity).toFixed(2)}
-                        </p>
+                        <div className="text-left sm:text-right">
+                          <p className="text-xs sm:text-sm text-gray-600 mb-0.5 sm:mb-1">
+                            ₹{item.price} × {item.quantity}
+                          </p>
+                          <p className="text-base sm:text-xl font-bold text-purple-900">
+                            ₹{(item.price * item.quantity).toFixed(2)}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Remove Button */}
-                  <button
-                    onClick={() => removeFromCart(item.id)}
-                    className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded transition-colors"
-                    title="Remove from cart"
-                  >
-                    ✕
-                  </button>
-                </div>
+                    {/* Remove Button */}
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 p-1 sm:p-2 rounded transition-colors shrink-0 self-start"
+                      title="Remove from cart"
+                    >
+                      ✕
+                    </button>
+                  </div>
               ))}
             </div>
           </div>

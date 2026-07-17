@@ -54,10 +54,10 @@ const Footer = () => {
           </div>
 
           {/* Contact Info */}
-          <div>
+          <div className="min-w-0">
             <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
-            <div className="space-y-2 text-gray-300 text-sm sm:text-base break-words">
-              <p>📍 Plot No. 52/62 Phase 2 IT park Bargi Hills, Jabalpur, MP 482003</p>
+            <div className="space-y-2 text-gray-300 text-sm sm:text-base">
+              <p className="break-words">📍 Plot No. 52/62 Phase 2 IT park Bargi Hills, Jabalpur, MP 482003</p>
               <p>📞 07612999707</p>
               <p className="break-all">✉️ acsdatacablesindia@gmail.com</p>
               <p>🕒 Mon-Fri: 10AM-7PM </p>

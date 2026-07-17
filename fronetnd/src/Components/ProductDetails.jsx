@@ -100,11 +100,11 @@ const ProductDetails = () => {
       <main className="container mx-auto px-4 py-10">
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="w-full lg:w-[450px] lg:sticky lg:top-24 lg:self-start">
-          <div className="aspect-square md:aspect-[4/3] border border-gray-300 rounded-md overflow-hidden mb-3 bg-gray-50">
+          <div className="aspect-square md:aspect-[4/3] border border-gray-300 rounded-md overflow-hidden mb-3 bg-gray-50 flex items-center justify-center">
             <img
               src={allImages[selectedImage]}
               alt={product.name}
-              className="w-full h-auto object-cover"
+              className="w-full h-full object-contain p-2"
             />
           </div>
           {allImages.length > 1 && (
@@ -122,7 +122,7 @@ const ProductDetails = () => {
                   <img
                     src={img}
                     alt={`${product.name} ${index + 1}`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain p-0.5"
                   />
                 </button>
               ))}

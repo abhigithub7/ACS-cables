@@ -19,15 +19,69 @@ import ScrollToTop from './Components/ScrollToTop.jsx'
 import SEO from './Components/SEO'
 
 const App = () => {
+
+  
   return (
     
     <CartProvider>
       <OrdersProvider>
         <Router>
           <ScrollToTop/>
-        <div>
+        <div className="w-full max-w-[100vw] overflow-x-hidden">
           <Navbar />
-          <main className=" md:pt-21 pt-20 ">
+   
+          <main className="pt-13">
+             <div className="flex mx-2 bg-white rounded-xl overflow-hidden">
+
+        <input
+            type="text"
+            placeholder="Search for cables, assessories...."
+            className="flex-1 min-w-0 text-sm px-4 bg-white text-start text-black border border-gray-300 py-1 outline-none"
+        />
+
+        <button className="bg-blue-950 px-1.5 text-white shrink-0">
+
+           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+</svg>
+
+
+        </button>
+
+    </div>
+            <div className="bg-blue-950 mt-1 text-white lg:hidden text-xs sm:text-sm">
+  <div className="w-full mx-auto flex items-center justify-center gap-1 sm:gap-3 px-1 sm:px-6 py-2 overflow-x-auto">
+
+    {/* Left Side */}
+    <div className="flex justify-center items-center gap-1 sm:gap-6">
+
+      <span className="flex items-center gap-0.5 sm:gap-1 whitespace-nowrap text-[10px] sm:text-xs">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3 h-3 sm:w-5 sm:h-5 shrink-0">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+        </svg>
+        Fast Delivery
+      </span>
+
+      <span className="flex items-center gap-0.5 sm:gap-1 whitespace-nowrap text-[10px] sm:text-xs">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3 h-3 sm:w-5 sm:h-5 shrink-0">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+        Genuine Products
+      </span>
+
+      <span className="flex items-center gap-0.5 sm:gap-1 whitespace-nowrap text-[10px] sm:text-xs">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3 h-3 sm:w-5 sm:h-5 shrink-0">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+        </svg>
+        Customer Support
+      </span>
+
+    </div>
+
+    
+
+  </div>
+</div>
             <Routes>
               <Route
                 path="/"
@@ -38,7 +92,20 @@ const App = () => {
                       description="Shop premium quality cables, wires, and electrical solutions at ACS Cables. Best prices with GST billing. Wide range of power cables, coaxial cables, and more."
                       ogUrl="/"
                     />
-                    <Slider />
+                    <div className='flex justify-between hidden lg:flex font-semibold px-9 py-2 gap-4 border  border-gray-100'>
+                      <h1>Data cables</h1>
+                      <h1>LAN Cables</h1>
+                      <h1>CCTV cables</h1>
+                      <h1>Power cables</h1>
+                      <h1>Printer cables</h1>
+                      <h1>Computer Accessories</h1>
+                      <h1>Brands</h1>
+                      <h1 className='text-red-600'>Deals</h1>
+                     
+                    </div>
+                    <div className='px-2'>
+                    <Slider  />
+                    </div>
                     <FeaturedProducts />
                   </>
                 }
