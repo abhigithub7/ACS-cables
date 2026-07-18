@@ -67,7 +67,7 @@ const RegisterPageContent = () => {
     <main className="container mx-auto px-4 py-14">
       <div className="mx-auto max-w-2xl rounded-[2rem] border border-gray-200 bg-white p-10 shadow-xl">
         <div className="mb-8 text-center">
-          <p className="text-sm uppercase tracking-[0.3em] text-purple-900 font-bold">Create account</p>
+          <p className="text-sm uppercase tracking-[0.3em] text-blue-950 font-bold">Create account</p>
           <h1 className="mt-3 text-3xl font-bold text-gray-900">Register as a new user</h1>
           <p className="mt-3 text-gray-600">Sign up to save favorites, track orders, and access exclusive offers.</p>
         </div>
@@ -82,7 +82,7 @@ const RegisterPageContent = () => {
                 value={form.firstName}
                 onChange={handleChange}
                 required
-                className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                className="w-full rounded-sm border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
                 placeholder="First name"
               />
             </div>
@@ -94,7 +94,7 @@ const RegisterPageContent = () => {
                 value={form.lastName}
                 onChange={handleChange}
                 required
-                className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                className="w-full rounded-sm border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
                 placeholder="Last name"
               />
             </div>
@@ -110,7 +110,7 @@ const RegisterPageContent = () => {
                 value={form.email}
                 onChange={handleChange}
                 required
-                className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                className="w-full rounded-sm border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
                 placeholder="you@example.com"
               />
             </div>
@@ -124,7 +124,7 @@ const RegisterPageContent = () => {
                 value={form.phone}
                 onChange={handleChange}
                 required
-                className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                className="w-full rounded-sm border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
                 placeholder="9999999999"
               />
             </div>
@@ -140,7 +140,7 @@ const RegisterPageContent = () => {
                 value={form.street}
                 onChange={handleChange}
                 required
-                className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                className="w-full rounded-sm border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
                 placeholder="123 Main St"
               />
             </div>
@@ -154,7 +154,7 @@ const RegisterPageContent = () => {
                 value={form.city}
                 onChange={handleChange}
                 required
-                className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                className="w-full rounded-sm border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
                 placeholder="City"
               />
             </div>
@@ -170,7 +170,7 @@ const RegisterPageContent = () => {
                 value={form.state}
                 onChange={handleChange}
                 required
-                className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                className="w-full rounded-sm border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
                 placeholder="State"
               />
             </div>
@@ -183,7 +183,7 @@ const RegisterPageContent = () => {
                 value={form.zipCode}
                 onChange={handleChange}
                 required
-                className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                className="w-full rounded-sm border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
                 placeholder="100001"
               />
             </div>
@@ -198,7 +198,7 @@ const RegisterPageContent = () => {
               value={form.password}
               onChange={handleChange}
               required
-              className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+              className="w-full rounded-sm border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
               placeholder="Create a password"
             />
           </div>
@@ -212,12 +212,12 @@ const RegisterPageContent = () => {
               value={form.confirmPassword}
               onChange={handleChange}
               required
-              className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+              className="w-full rounded-sm border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
               placeholder="Repeat your password"
             />
           </div>
 
-          <button type="submit" className="w-full rounded-3xl bg-purple-900 px-6 py-3 text-white text-sm font-semibold transition hover:bg-purple-800">
+          <button type="submit" className="w-full rounded-sm bg-yellow-400 px-6 py-3 text-white text-sm font-semibold transition hover:bg-yellow-300">
             Register
           </button>
 
@@ -226,7 +226,7 @@ const RegisterPageContent = () => {
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Already have an account?{' '}
-          <Link to="/login" className="font-semibold text-purple-900 hover:text-purple-700">
+          <Link to="/login" className="font-semibold text-blue-950 hover:text-blue-900">
             Log in
           </Link>
         </p>

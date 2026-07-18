@@ -39,11 +39,11 @@ const Slider = () => {
 
   return (
     <div
-      className="relative   mt-2.5 rounded-lg  w-full overflow-hidden bg-gray-900"
+      className="relative   mt-2.5 rounded-lg  w-full overflow-hidden "
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        height: 'clamp(130px, 20vw, 500px)',
+        height: 'clamp(130px, 18vw, 500px)',
       }}
     >
       {/* Slides Container */}
@@ -54,14 +54,17 @@ const Slider = () => {
         {slides.map((slide) => (
           <div
             key={slide.id}
-            className="relative w-full h-full object-contain shrink-0 snap-center overflow-hidden"
+            className="relative w-[100%] h-full object-fit shrink-0 snap-center overflow-hidden"
           >
+            <div className='h-full w-full '>
             <img
               src={slide.image}
               alt={`Slide ${slide.id}`}
-              className="w-full h-full  bg-gray-900"
+              className="w-full h-full object-fit  "
               loading={slide.id === 1 ? 'eager' : 'lazy'}
             />
+            </div>
+           
             {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent pointer-events-none"></div>
           </div>

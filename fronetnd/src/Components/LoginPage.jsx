@@ -45,9 +45,9 @@ const LoginPageContent = () => {
 
   return (
     <main className="container mx-auto px-4 py-14">
-      <div className="mx-auto max-w-2xl rounded-[2rem] border border-gray-200 bg-white p-10 shadow-xl">
+      <div className="mx-auto max-w-lg rounded-lg border border-gray-200 bg-white p-10 shadow-xl">
         <div className="mb-8 text-center">
-          <p className="text-sm uppercase tracking-[0.3em] text-purple-900 font-bold">Welcome back</p>
+          <p className="text-sm uppercase tracking-[0.3em] text-blue-900 font-bold">Welcome back</p>
           <h1 className="mt-3 text-3xl font-bold text-gray-900">Log in to your account</h1>
           <p className="mt-3 text-gray-600">Enter your email and password to access your orders, favorites, and account settings.</p>
         </div>
@@ -62,7 +62,7 @@ const LoginPageContent = () => {
               value={form.email}
               onChange={handleChange}
               required
-              className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+              className="w-full rounded-sm border border-gray-300 px-4 py-3 focus:border-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-200"
               placeholder="you@example.com"
             />
           </div>
@@ -76,12 +76,12 @@ const LoginPageContent = () => {
               value={form.password}
               onChange={handleChange}
               required
-              className="w-full rounded-3xl border border-gray-300 px-4 py-3 focus:border-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+              className="w-full rounded-sm border border-gray-300 px-4 py-3 focus:border-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-200"
               placeholder="Enter your password"
             />
           </div>
 
-          <button type="submit" className="w-full rounded-3xl bg-purple-900 px-6 py-3 text-white text-sm font-semibold transition hover:bg-purple-800">
+          <button type="submit" className="w-full rounded-sm bg-yellow-400 px-6 py-3 text-white text-sm font-semibold transition hover:bg-yellow-300">
             Log in
           </button>
 
@@ -90,7 +90,7 @@ const LoginPageContent = () => {
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Don't have an account?{' '}
-          <Link to="/register" className="font-semibold text-purple-900 hover:text-purple-700">
+          <Link to="/register" className="font-semibold text-blue-950 hover:text-blue-700">
             Register here
           </Link>
         </p>

@@ -67,13 +67,15 @@ const CartPageContent = () => {
   if (cartItems.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-4">
-        <div className="text-center">
-          <div className="text-6xl mb-4">🛒</div>
+        <div className="text-center object-center place-items-center">
+          <div className="text-6xl h-24 w-24 md:h-48 md:w-48 mb-4">
+            <img src="https://png.pngtree.com/png-clipart/20250528/original/pngtree-retail-goods-cart-png-image_21084479.png" alt="" />
+          </div>
           <h2 className="text-3xl font-bold text-gray-800 mb-4">Your Cart is Empty</h2>
           <p className="text-gray-600 mb-8">Add some products to get started!</p>
           <Link
             to="/products"
-            className="bg-purple-900 hover:bg-purple-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+            className="bg-blue-950 hover:bg-blue-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
           >
             Continue Shopping
           </Link>
