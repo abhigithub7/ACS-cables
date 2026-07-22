@@ -555,7 +555,7 @@ const CheckoutPageContent = () => {
               </div>
 
               <div className="border-t border-gray-200 mt-4 pt-4">
-                <div className="flex justify-between text-2xl font-bold text-purple-900">
+                <div className="flex justify-between text-2xl font-bold text-blue-950">
                   <span>Total</span>
                   <span>₹{priceBreakdown ? priceBreakdown.total.toFixed(2) : getTotalPrice().toFixed(2)}</span>
                 </div>

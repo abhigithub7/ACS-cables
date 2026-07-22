@@ -96,7 +96,7 @@ const ContactPageContent = () => {
 
             <button
               type="submit"
-              className="inline-flex items-center justify-center rounded-2xl bg-purple-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-purple-800"
+              className="inline-flex items-center justify-center rounded-sm bg-blue-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-800"
             >
               Send message
             </button>

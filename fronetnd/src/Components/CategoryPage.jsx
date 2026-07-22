@@ -69,7 +69,7 @@ const CategoryPageContent = () => {
   return (
     <main className="container mx-auto px-4 py-10">
       <div className="mb-10 text-center">
-        <p className="text-sm uppercase tracking-[0.3em] text-purple-900 font-bold mb-2">Category Center</p>
+        <p className="text-sm uppercase tracking-[0.3em] text-blue-950 font-bold mb-2">Category Center</p>
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Browse by category</h1>
         <p className="max-w-2xl mx-auto text-gray-600 mt-3">
           Explore our catalog by category and find the products that fit your setup.
@@ -82,7 +82,7 @@ const CategoryPageContent = () => {
           onClick={() => setActiveCategory('All')}
           className={`rounded-3xl border px-5 py-4 text-left transition ${
             activeCategory === 'All'
-              ? 'border-purple-900 bg-purple-900 text-white'
+              ? 'border-blue-900 bg-blue-950 text-white'
               : 'border-gray-200 bg-white text-gray-900 hover:border-purple-900 hover:bg-purple-50'
           }`}
         >
@@ -118,7 +118,7 @@ const CategoryPageContent = () => {
         </div>
         <Link
           to="/products"
-          className="inline-flex items-center justify-center rounded-xl bg-purple-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-purple-800"
+          className="inline-flex items-center justify-center rounded-xl bg-blue-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-purple-800"
         >
           View full store
         </Link>

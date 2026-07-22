@@ -138,7 +138,7 @@ const CartPageContent = () => {
                           <p className="text-xs sm:text-sm text-gray-600 mb-0.5 sm:mb-1">
                             ₹{item.price} × {item.quantity}
                           </p>
-                          <p className="text-base sm:text-xl font-bold text-purple-900">
+                          <p className="text-base sm:text-xl font-bold text-blue-950">
                             ₹{(item.price * item.quantity).toFixed(2)}
                           </p>
                         </div>
@@ -174,7 +174,7 @@ const CartPageContent = () => {
                   onChange={handlePincodeChange}
                   placeholder="Enter 6-digit pincode"
                   maxLength={6}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-center tracking-widest text-lg"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-950 text-center tracking-widest text-lg"
                 />
                 {deliveryState && (
                   <p className="text-sm text-green-600 mt-2 font-medium">
@@ -264,7 +264,7 @@ const CartPageContent = () => {
                     </div>
                   </div>
                   <div className="border-t border-gray-200 pt-4 mb-6">
-                    <div className="flex justify-between text-2xl font-bold text-purple-900">
+                    <div className="flex justify-between text-2xl font-bold text-blue-950">
                       <span>Total</span>
                       <span>₹{priceBreakdown.total.toFixed(2)}</span>
                     </div>
@@ -272,7 +272,7 @@ const CartPageContent = () => {
                 </>
               ) : (
                 <div className="border-t border-gray-200 pt-4 mb-6">
-                  <div className="flex justify-between text-2xl font-bold text-purple-900">
+                  <div className="flex justify-between text-2xl font-bold text-blue-950">
                     <span>Total</span>
                     <span>₹{subtotal.toFixed(2)}</span>
                   </div>
@@ -284,14 +284,14 @@ const CartPageContent = () => {
                   const state = deliveryState || '';
                   navigate(`/checkout?pincode=${pincode}&state=${encodeURIComponent(state)}`);
                 }}
-                className="w-full bg-purple-900 hover:bg-purple-800 text-white py-3 rounded-lg font-semibold transition-colors mb-4"
+                className="w-full bg-blue-950 hover:bg-blue-800 text-white py-3 rounded-lg font-semibold transition-colors mb-4"
               >
                 Proceed to Checkout
               </button>
 
               <Link
                 to="/products"
-                className="block text-center text-purple-900 hover:text-purple-800 font-semibold py-2"
+                className="block text-center text-blue-950 hover:text-blue-900 font-semibold py-2"
               >
                 Continue Shopping
               </Link>

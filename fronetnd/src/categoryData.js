@@ -24,7 +24,7 @@ export const categories = [
     image: cctv,
   },
   {
-    name: "Computer Power",
+    name: "Printers",
     image: power,
   },
   {

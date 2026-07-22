@@ -1,9 +1,11 @@
-# Robots.txt for ACS Cables
+# Robots.txt for ACS Cables - www.acscables.in
 User-agent: *
 Allow: /
-
-# Sitemap
-Sitemap: https://acs-cables.vercel.app/sitemap.xml
+Allow: /products
+Allow: /categories
+Allow: /product/
+Allow: /about
+Allow: /contact
 
 # Disallow admin and auth pages
 Disallow: /login
@@ -11,3 +13,15 @@ Disallow: /register
 Disallow: /cart
 Disallow: /checkout
 Disallow: /orders
+
+# Disallow search and query params to avoid duplicate content
+Disallow: /*?*
+
+# Crawl delay for polite crawling
+Crawl-delay: 10
+
+# Sitemap
+Sitemap: https://www.acscables.in/sitemap.xml
+
+# Host
+Host: https://www.acscables.in

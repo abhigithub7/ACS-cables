@@ -103,7 +103,7 @@ const ProductListContent = () => {
               max={highestPrice}
               value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="w-full accent-purple-900"
+              className="w-full accent-blue-950"
             />
           </div>
         </div>
@@ -121,7 +121,7 @@ const ProductListContent = () => {
             setSelectedCategory('All');
             setMaxPrice(highestPrice);
           }}
-          className="inline-flex items-center justify-center rounded-xl bg-purple-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-800"
+          className="inline-flex items-center justify-center rounded-xl bg-blue-950 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-800"
         >
           Reset filters
         </button>

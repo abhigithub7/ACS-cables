@@ -5,14 +5,17 @@ const Slider = () => {
     {
       id: 1,
       image: "https://res.cloudinary.com/dcupo5fge/image/upload/v1784308657/ChatGPT_Image_Jul_17_2026_10_44_09_PM_epsl2a.png",
+      alt: "ACS Cables - Premium Quality Cables and Wires for All Your Electrical Needs"
     },
     {
       id: 2,
       image: "https://res.cloudinary.com/dcupo5fge/image/upload/v1781889975/ChatGPT_Image_Jun_19_2026_10_55_21_PM_ie1mp0.png",
+      alt: "Shop LAN Cables, CCTV Cables, and Power Cables at Best Prices - ACS Cables"
     },
     {
       id: 3,
       image: "https://res.cloudinary.com/dcupo5fge/image/upload/v1781890314/ChatGPT_Image_Jun_19_2026_11_01_32_PM_ny6xqj.png",
+      alt: "Computer Accessories and Printer Cables - ACS Cables India"
     }
   ];
 
@@ -43,7 +46,7 @@ const Slider = () => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        height: 'clamp(130px, 18vw, 500px)',
+        height: 'clamp(170px, 20vw, 500px)',
       }}
     >
       {/* Slides Container */}
@@ -59,7 +62,7 @@ const Slider = () => {
             <div className='h-full w-full '>
             <img
               src={slide.image}
-              alt={`Slide ${slide.id}`}
+              alt={slide.alt}
               className="w-full h-full object-fit  "
               loading={slide.id === 1 ? 'eager' : 'lazy'}
             />

@@ -35,7 +35,7 @@ const AboutPage = () => {
           </div>
 
           <div className="grid gap-6 lg:grid-cols-2">
-            <div className="rounded-3xl border border-gray-200 p-8 bg-gradient-to-br from-purple-900 to-purple-700 text-white">
+            <div className="rounded-3xl border border-gray-200 p-8 bg-gradient-to-br from-blue-950 to-blue-950 text-white">
               <p className="text-sm uppercase tracking-[0.3em] font-bold text-purple-200 mb-4">Why shop with us</p>
               <ul className="space-y-3 text-sm sm:text-base">
                 <li>Fast shipping across all computer accessories.</li>

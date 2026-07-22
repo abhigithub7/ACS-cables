@@ -17,6 +17,8 @@ import OrdersListPage from './Components/OrdersListPage'
 import Footer from './Components/Footer'
 import ScrollToTop from './Components/ScrollToTop.jsx'
 import SEO from './Components/SEO'
+import TopCards from './Components/TopCard.jsx'
+import BottomFeatures from './Components/Bottomfeature.jsx'
 
 const App = () => {
 
@@ -92,21 +94,34 @@ const App = () => {
                       description="Shop premium quality cables, wires, and electrical solutions at ACS Cables. Best prices with GST billing. Wide range of power cables, coaxial cables, and more."
                       ogUrl="/"
                     />
-                    <div className='flex justify-between hidden lg:flex font-semibold px-9 py-2 gap-4 border  border-gray-100'>
-                      <h1>Data cables</h1>
-                      <h1>LAN Cables</h1>
-                      <h1>CCTV cables</h1>
-                      <h1>Power cables</h1>
-                      <h1>Printer cables</h1>
-                      <h1>Computer Accessories</h1>
-                      <h1>Brands</h1>
-                      <h1 className='text-red-600'>Deals</h1>
-                     
+                    <div className='hidden lg:flex font-semibold px-9 py-2 gap-4 border border-gray-100'>
+                      <span>Data cables</span>
+                      <span>LAN Cables</span>
+                      <span>CCTV cables</span>
+                      <span>Power cables</span>
+                      <span>Printer cables</span>
+                      <span>Computer Accessories</span>
+                      <span>Brands</span>
+                      <span className='text-red-600'>Deals</span>
                     </div>
-                    <div className='px-2'>
-                    <Slider  />
+                    
+                    {/* H1 for SEO: Main site heading describing what the business offers */}
+                    <h1 className="sr-only">ACS Cables - India's Trusted Cable and Wire Supplier for Power, LAN, CCTV, and Computer Accessories</h1>
+                    
+                    <div className='md:px-3 px-2'>
+                    <Slider />
                     </div>
+                    
+                    <div className='md:px-4 px-0 '>
+                    <h2 className="text-xl font-bold text-gray-900 px-3 py-2">Featured Products</h2>
                     <FeaturedProducts />
+                    </div>
+                    
+                    <section className="max-w-8xl mx-auto py-1">
+                    <h2 className="sr-only">Why Choose ACS Cables</h2>
+                    <TopCards />
+                    <BottomFeatures />
+                    </section>
                   </>
                 }
               />
