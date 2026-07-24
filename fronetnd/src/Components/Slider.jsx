@@ -46,7 +46,7 @@ const Slider = () => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        height: 'clamp(170px, 20vw, 500px)',
+        height: 'clamp(120px, 22vw, 500px)',
       }}
     >
       {/* Slides Container */}
@@ -57,13 +57,13 @@ const Slider = () => {
         {slides.map((slide) => (
           <div
             key={slide.id}
-            className="relative w-[100%] h-full object-fit shrink-0 snap-center overflow-hidden"
+            className="relative w-[100%] h-full object-cover shrink-0 snap-center overflow-hidden"
           >
             <div className='h-full w-full '>
             <img
               src={slide.image}
               alt={slide.alt}
-              className="w-full h-full object-fit  "
+              className="w-full h-auto object-cover  "
               loading={slide.id === 1 ? 'eager' : 'lazy'}
             />
             </div>

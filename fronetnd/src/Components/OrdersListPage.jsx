@@ -70,7 +70,7 @@ const OrdersListPageContent = () => {
           <p className="text-gray-600 mb-8">You haven't placed any orders yet. Start shopping now!</p>
           <Link
             to="/products"
-            className="bg-purple-900 hover:bg-purple-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+            className="bg-blue-950 hover:bg-purple-800 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
           >
             Continue Shopping
           </Link>

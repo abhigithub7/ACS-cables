@@ -4,12 +4,12 @@ const CategoryCard = ({ item }) => {
 
       <div className="flex flex-col items-center">
 
-        <div className="md:w-32 md:h-32 w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center transition duration-300  group-hover:scale-105">
+        <div className="md:w-24 md:h-24 w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center transition duration-300  group-hover:scale-105">
 
           <img
             src={item.image}
             alt={item.name}
-            className="md:w-20  md:h-20 w-12 h-12 object-contain"
+            className="md:w-20 rounded-full  md:h-20 w-12 h-12 object-contain"
           />
 
         </div>

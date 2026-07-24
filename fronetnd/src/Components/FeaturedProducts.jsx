@@ -31,23 +31,10 @@ const FeaturedProducts = () => {
   if (error) return <section className="container mx-auto px-4 py-10 text-center text-red-600">Error: {error}</section>;
 
   return (
-    <section className="container mx-auto px-4 py-8">
-      <div className="flex flex-col md:gap-3 gap-1  mb-2 text-center">
-        <div className="flex items-center justify-center ">
-  <span className="w-10 sm:w-16 h-[2px] bg-yellow-300"></span>
-
-  <h2 className="mx-1 lg:mx-4 text-sm md:text-xl font-bold text-slate-800">
-    Shop by Category
-  </h2>
-
-  <span className="w-10 sm:w-16 h-[2px] bg-yellow-300"></span>
-</div>
-      </div>
-
-      
-      <div>
+    <section className="container mx-auto px-4 py-1">
+    
         <CategorySection/>
-      </div>
+    
       <div className="flex flex-col md:gap-3 gap-1  mb-2 text-center">
         <div className="flex items-center justify-center ">
   <span className="w-10 sm:w-16 h-[2px] bg-yellow-300"></span>

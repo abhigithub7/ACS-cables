@@ -6,7 +6,7 @@ import CategoryCard from "./CategoryCard.jsx";
 
 const CategorySection = () => {
   return (
-    <section className="py-8">
+    <section className="py-5">
 
       <div className="md:max-w-7xl max-w-3xl mx-auto">
 

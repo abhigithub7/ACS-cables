@@ -94,7 +94,7 @@ const App = () => {
                       description="Shop premium quality cables, wires, and electrical solutions at ACS Cables. Best prices with GST billing. Wide range of power cables, coaxial cables, and more."
                       ogUrl="/"
                     />
-                    <div className='hidden lg:flex font-semibold px-9 py-2 gap-4 border border-gray-100'>
+                    <div className='hidden lg:flex font-semibold px-12 py-2 gap-18 border border-gray-100'>
                       <span>Data cables</span>
                       <span>LAN Cables</span>
                       <span>CCTV cables</span>
@@ -113,7 +113,6 @@ const App = () => {
                     </div>
                     
                     <div className='md:px-4 px-0 '>
-                    <h2 className="text-xl font-bold text-gray-900 px-3 py-2">Featured Products</h2>
                     <FeaturedProducts />
                     </div>
                     
